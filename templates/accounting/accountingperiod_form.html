@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load i18n bootstrap3 %}
 
-{% block meta_title %}{% trans "Customers" %}{% endblock %}
-{% block title %}{% trans "Customers" %}{% endblock %}
+{% block meta_title %}{% trans "Accouting Period" %}{% endblock %}
+{% block title %}{% trans "Accouting Period" %}{% endblock %}
 
 {% block breadcrumb_menu %}
     <li class="active"><a href="{% url 'accoutingperiod_list' %}">{% trans "Currencies" %}</a></li>
@@ -15,7 +15,7 @@
 {% block main %}
     <div class="form-panel" style="margin: 30px">
     <h4 class="mb"><i class="fa fa-angle-right"></i>
-    {% if currency %}{% trans "Edit currency" %}{% else %}{% trans "Create currency" %}{% endif%}</h4>
+    {% if currency %}{% trans "Edit Accouting Period" %}{% else %}{% trans "Create Accouting Period" %}{% endif%}</h4>
     <form method="POST" action="." class="form form-horizontal" style="margin: 30px;">
     {% csrf_token %}
 
@@ -29,7 +29,7 @@
                 {% trans "Save" %}
             </button>
 
-            <button type="button" class="btn btn-default" onclick="window.location.assign('{% url 'currency_list' %}')">
+            <button type="button" class="btn btn-default" onclick="window.location.assign('{% url 'accoutingperiod_list' %}')">
                 {% trans "Cancel" %}
             </button>
 
