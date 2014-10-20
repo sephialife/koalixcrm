@@ -1,0 +1,18 @@
+language: python
+python:
+  - "2.7"
+# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+install:
+  - pip install -r requirements.txt
+  - pip install python-coveralls
+  - pip install coverage
+# command to run tests, e.g. python setup.py test
+# Using manage.py validate since there are no unit tests yet
+script:
+  - python manage.py check
+  - python manage.py migrate
+  - python manage.py validate
+  - coverage run --source='.' manage.py test crm_core accounting subscriptions admin_backup
+  - coverage report
+after_success:
+  - coveralls

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Suppliers" %}{% endblock %}
+{% block title %}{% trans "Suppliers" %}{% endblock %}
+
+{% block breadcrumb_menu %}
+    <li class="active">{% trans "Suppliers" %}</li>
+{% endblock %}
+
+{% block main %}
+    <div class="content-panel" style="margin: 30px; padding: 10px;">
+    <h4><i class="fa fa-angle-right"></i> {% trans "Suppliers" %}</h4>
+        {% if supplier_list %}
+        <table class="table table-striped table-advance">
+            <tr><th>{% trans "Name" %}</th><th>{% trans 'Postal Address' %}</th>
+                <th>{% trans 'Phone Number' %}</th><th>{% trans 'Email Address' %}</th><th></th></tr>
+            {% for supplier in supplier_list %}
+                <tr>
+                    <td><a href="{% url 'supplier_detail' supplier.pk %}">{{ supplier.name }}</a></td>
+                    <td>
+                        {% for address in supplier.addresses.all %}
+                            {{ address }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for phonenumber in supplier.phonenumbers.all %}
+                            {{ phonenumber }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for email in supplier.emailaddresses.all %}
+                            {{ email }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p class="pull-right">
+                        {% if perms.crm_core.change_supplier %}
+                        <button type="button" class="btn btn-sm btn-primary" onclick="window.location.assign('{% url 'supplier_edit' supplier.pk %}')">{% trans "Edit" %}</button>
+                        {% endif %}
+                        {% if perms.crm_core.delete_supplier %}
+                        <button type="button" class="btn btn-sm btn-danger" onclick="window.location.assign('{% url 'supplier_delete' supplier.pk %}')">{% trans "Delete" %}</button>
+                        {% endif %}
+                        </p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        {% if perms.crm_core.add_supplier %}
+        <p><a href="{% url 'supplier_create' %}">{% trans "Create a new supplier" %}</a></p>
+        {% endif %}
+    </div>
+{% endblock %}
