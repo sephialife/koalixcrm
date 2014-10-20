@@ -206,7 +206,7 @@
                       </li>
                       {% endif %}
 
-                      {% if perms.crm_core.can_view or perms.crm_core.can_view or perms.crm_core.can_view or perms.crm_core.can_view %}
+                      {% if perms.crm_core.view_contract or perms.crm_core.view_quote or perms.crm_core.view_purchaseorder or perms.crm_core.view_invoice%}
                       <li class="sub-menu">
                           <a href="javascript:;" >
                               <i class="fa fa-trophy"></i>
@@ -229,7 +229,27 @@
                       </li>
                       {% endif %}
 
-                    {% if perms.crm_core.view_customergroup or perms.crm_core.view_billingcycle or perms.crm_core.view_currency or perms.crm_core.view_tax or perms.crm_core.view_unit %}
+                      {% if perms.accounting.view_accountingPeriod or perms.accounting.view_account or perms.accounting.view_productcategory%}
+                          <li class="sub-menu">
+                              <a href="javascript:;" >
+                                  <i class="fa fa-trophy"></i>
+                                  <span>{% trans "Accounting" %}</span>
+                              </a>
+                              <ul class="sub">
+                                  {% if perms.accounting.view_accountingPeriod %}
+                                      <li><a href="/accountingPeriod/">{% trans "Contracts" %}</a></li>
+                                  {% endif %}
+                                  {% if perms.accounting.view_account %}
+                                      <li><a href="/account/">{% trans "Quotes" %}</a></li>
+                                  {% endif %}
+                                  {% if perms.accounting.view_productcategory %}
+                                      <li><a href="/productcategory/">{% trans "Purchase Orders" %}</a></li>
+                                  {% endif %}
+                              </ul>
+                          </li>
+                      {% endif %}
+
+                      {% if perms.crm_core.view_customergroup or perms.crm_core.view_billingcycle or perms.crm_core.view_currency or perms.crm_core.view_tax or perms.crm_core.view_unit %}
                       <li class="sub-menu">
                           <a href="javascript:;" >
                               <i class="fa fa-wrench"></i>
