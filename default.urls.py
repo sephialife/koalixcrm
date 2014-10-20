@@ -12,6 +12,7 @@ from crm_core.views import login_user, UpdateUserProfile, ListCustomers, ListSup
     EditQuote, EditSupplier, EditTax, EditUnit, DeleteQuote, DeleteInvoice, DeleteContract, DeleteCustomerGroup, \
     DeleteBillingCycle, DeleteCurrency, DeleteCustomer, DeleteProduct, DeletePurchaseOrder, DeleteSupplier, \
     DeleteUnit, DeleteTax, show_dashboard, ViewCustomer, ViewSupplier
+from accounting.views import DeleteAccountingPeriod, EditAccountingPeriod, CreateAccountingPeriod, ListAccoutingPeriod
 
 admin.autodiscover()
 
@@ -100,6 +101,11 @@ urlpatterns = i18n_patterns("",
                             url(r'^quotes/create/$', CreateQuote.as_view(), name='quote_create'),
                             url(r'^quotes/edit/(?P<pk>\d+)/$', EditQuote.as_view(), name='quote_edit'),
                             url(r'^quotes/delete/(?P<pk>\d+)/$', DeleteQuote.as_view(), name='quote_delete'),
+
+                            url(r'^accountingperiod/$', ListAccoutingPeriod.as_view(), name='accountingperiod_list'),
+                            url(r'^accountingperiod/create/$', CreateAccoutingPeriod.as_view(), name='accountingperiod_create'),
+                            url(r'^accountingperiod/edit/(?P<pk>\d+)/$', EditAccoutingPeriod.as_view(), name='accountingperiod_edit'),
+                            url(r'^accountingperiod/delete/(?P<pk>\d+)/$', DeleteAccountingPeriod.as_view(), name='accountingperiod_delete'),
 )
 
 urlpatterns += patterns('',

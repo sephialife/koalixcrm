@@ -1,9 +1,42 @@
 # -*- coding: utf-8 -*-
 from os import path
 
+from braces.views import PermissionRequiredMixin, LoginRequiredMixin
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from django.core.servers.basehttp import FileWrapper
 from django.http import Http404
 from django.http import HttpResponse
+from django.conf import settings
+from django.core.urlresolvers import reverse_lazy
+from accounting.models import AccountingPeriod
+
+
+class CreateAccountingPeriod(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = AccountingPeriod
+    permission_required = 'accounting.add_accountingperiod'
+    login_url = settings.LOGIN_URL
+    success_url = reverse_lazy('accountingperiod_list')
+
+
+class EditAccountingPeriod(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = AccountingPeriod
+    permission_required = 'accounting.change_accountingperiod'
+    login_url = settings.LOGIN_URL
+    success_url = reverse_lazy('accountingperiod_list')
+
+
+class DeleteAccountingPeriod(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = AccountingPeriod
+    permission_required = 'accounting.delete_accountingperiod'
+    login_url = settings.LOGIN_URL
+    success_url = reverse_lazy('accountingperiod_list')
+
+
+class ListAccountingPeriod(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = AccountingPeriod
+    permission_required = 'accounting.view_accoutingperiod'
+    login_url = settings.LOGIN_URL
+    fields = ['title', 'begin', 'end']
 
 
 def export_pdf(calling_model_admin, request, where_to_create_form, what_to_create, redirect_to):
