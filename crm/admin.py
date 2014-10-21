@@ -1,26 +1,624 @@
+# -*- coding: utf-8 -*-
+import os
+from django import forms
+from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response
+from django.core.context_processors import csrf
+from datetime import date
+from crm.models import *
+from crm.views import *
+from accounting.models import Booking
+from plugin import *
+from django.utils.translation import ugettext as _
 from django.contrib import admin
-# from mezzanine.core import admin
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
-from crm.models import UserExtension
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.core.servers.basehttp import FileWrapper
+from django.template import RequestContext
+from django.contrib.admin import helpers
 
+   
+class ContractPostalAddress(admin.StackedInline):
+   model = PostalAddressForContract
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('prefix', 'prename', 'name', 'addressline1', 'addressline2', 'addressline3', 'addressline4', 'zipcode', 'town', 'state', 'country', 'purpose')
+      }),
+   )
+   allow_add = True
+   
+class ContractPhoneAddress(admin.TabularInline):
+   model = PhoneAddressForContract
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('phone', 'purpose',)
+      }),
+   )
+   allow_add = True
+   
+class ContractEmailAddress(admin.TabularInline):
+   model = EmailAddressForContract
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('email', 'purpose',)
+      }),
+   )
+   allow_add = True
 
-# Define an inline admin descriptor
-# which acts a bit like a singleton
-class CRMUserProfileInline(admin.TabularInline):
-    model = UserExtension
-    can_delete = False
+class PurchaseOrderPostalAddress(admin.StackedInline):
+   model = PostalAddressForPurchaseOrder
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('prefix', 'prename', 'name', 'addressline1', 'addressline2', 'addressline3', 'addressline4', 'zipcode', 'town', 'state', 'country', 'purpose')
+      }),
+   )
+   allow_add = True
+   
+class PurchaseOrderPhoneAddress(admin.TabularInline):
+   model = PhoneAddressForPurchaseOrder
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('phone', 'purpose',)
+      }),
+   )
+   allow_add = True
+   
+class PurchaseOrderEmailAddress(admin.TabularInline):
+   model = EmailAddressForPurchaseOrder
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('email', 'purpose',)
+      }),
+   )
+   allow_add = True
+
+class SalesContractPostalAddress(admin.StackedInline):
+   model = PostalAddressForSalesContract
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('prefix', 'prename', 'name', 'addressline1', 'addressline2', 'addressline3', 'addressline4', 'zipcode', 'town', 'state', 'country', 'purpose')
+      }),
+   )
+   allow_add = True
+   
+class SalesContractPhoneAddress(admin.TabularInline):
+   model = PhoneAddressForSalesContract
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('phone', 'purpose',)
+      }),
+   )
+   allow_add = True
+   
+class SalesContractEmailAddress(admin.TabularInline):
+   model = EmailAddressForSalesContract
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('email', 'purpose',)
+      }),
+   )
+   allow_add = True
+
+class SalesContractInlinePosition(admin.TabularInline):
+    model = SalesContractPosition
     extra = 1
-    max_num = 1
-    verbose_name_plural = _('User Profile Extensions')
+    classes = ('collapse-open',)
+    fieldsets = (
+        ('', {
+            'fields': ('positionNumber', 'quantity', 'unit', 'product', 'description', 'discount', 'overwriteProductPrice', 'positionPricePerUnit', 'sentOn', 'supplier')
+        }),
+    )
+    allow_add = True
 
 
-# Define a new User admin
-class UserAdmin(UserAdmin):
-    inlines = (CRMUserProfileInline, )
+class InlineQuote(admin.TabularInline):
+   model = Quote
+   classes = ('collapse-open')
+   extra = 1
+   readonly_fields = ('description', 'contract', 'customer', 'validuntil', 'status', 'lastPricingDate', 'lastCalculatedPrice', 'lastCalculatedTax', )
+   fieldsets = (
+      (_('Basics'), {
+         'fields': ('description', 'contract', 'customer', 'validuntil', 'status')
+      }),
+      (_('Advanced (not editable)'), {
+         'classes': ('collapse',),
+         'fields': ('lastPricingDate', 'lastCalculatedPrice', 'lastCalculatedTax',)
+      }),
+   )
+   allow_add = False
+   
+class InlineInvoice(admin.TabularInline):
+   model = Invoice
+   classes = ('collapse-open')
+   extra = 1
+   readonly_fields = ('lastPricingDate', 'lastCalculatedPrice', 'lastCalculatedTax', 'description', 'contract', 'customer', 'payableuntil', 'status' )
+   fieldsets = (
+      (_('Basics'), {
+         'fields': ('description', 'contract', 'customer', 'payableuntil', 'status'),
+      }),
+      (_('Advanced (not editable)'), {
+         'classes': ('collapse',),
+         'fields': ('lastPricingDate', 'lastCalculatedPrice', 'lastCalculatedTax',)
+      }),
+   )
+   
+   allow_add = False
+   
+class InlinePurchaseOrder(admin.TabularInline):
+   model = PurchaseOrder
+   classes = ('collapse-open')
+   extra = 1
+   readonly_fields = ('description', 'contract', 'supplier', 'externalReference', 'status', 'lastPricingDate', 'lastCalculatedPrice' )
+   fieldsets = (
+      (_('Basics'), {
+         'fields': ('description', 'contract', 'supplier', 'externalReference', 'status')
+      }),
+      (_('Advanced (not editable)'), {
+         'classes': ('collapse',),
+         'fields': ('lastPricingDate', 'lastCalculatedPrice')
+      }),
+   )
+   allow_add = False
+
+class OptionContract(admin.ModelAdmin):
+   list_display = ('id', 'description', 'defaultcustomer', 'defaultSupplier', 'staff', 'defaultcurrency')
+   list_display_links = ('id','description', 'defaultcustomer', 'defaultSupplier', 'defaultcurrency')       
+   list_filter    = ('defaultcustomer', 'defaultSupplier', 'staff', 'defaultcurrency')
+   ordering       = ('id', 'defaultcustomer', 'defaultcurrency')
+   search_fields  = ('id','contract', 'defaultcurrency__description')
+   fieldsets = (
+      (_('Basics'), {
+         'fields': ('description', 'defaultcustomer', 'staff','defaultSupplier', 'defaultcurrency')
+      }),
+   )
+   inlines = [ContractPostalAddress, ContractPhoneAddress, ContractEmailAddress, InlineQuote, InlineInvoice, InlinePurchaseOrder]
+   pluginProcessor = PluginProcessor()
+   inlines.extend(pluginProcessor.getPluginAdditions("contractInlines"))
+
+   def createPurchaseOrder(self, request, queryset):
+      for obj in queryset:
+         purchaseorder = obj.createPurchaseOrder()
+         self.message_user(request, _("PurchaseOrder created"))
+         response = HttpResponseRedirect('/admin/crm/purchaseorder/'+str(purchaseorder.id))
+      return response
+   createPurchaseOrder.short_description = _("Create Purchaseorder")
+   
+   def createQuote(self, request, queryset):
+      for obj in queryset:
+         quote = obj.createQuote()
+         self.message_user(request, _("Quote created"))
+         response = HttpResponseRedirect('/admin/crm/quote/'+str(quote.id))
+      return response
+   createQuote.short_description = _("Create Quote")
+   
+   def createInvoice(self, request, queryset):
+      for obj in queryset:
+         invoice = obj.createInvoice()
+         self.message_user(request, _("Invoice created"))
+         response = HttpResponseRedirect('/admin/crm/invoice/'+str(invoice.id))
+      return response
+   createInvoice.short_description = _("Create Invoice")
+    
+   def save_model(self, request, obj, form, change):
+     if (change == True):
+       obj.lastmodifiedby = request.user
+     else:
+       obj.lastmodifiedby = request.user
+       obj.staff = request.user
+     obj.save()
+      
+   actions = ['createQuote', 'createInvoice', 'createPurchaseOrder']
+   pluginProcessor = PluginProcessor()
+   actions.extend(pluginProcessor.getPluginAdditions("contractActions"))
 
 
-# Re-register UserAdmin
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+class PurchaseOrderInlinePosition(admin.TabularInline):
+    model = PurchaseOrderPosition
+    extra = 1
+    classes = ('collapse-open',)
+    fieldsets = (
+        ('', {
+            'fields': ('positionNumber', 'quantity', 'unit', 'product', 'description', 'discount', 'overwriteProductPrice', 'positionPricePerUnit', 'sentOn', 'supplier')
+        }),
+    )
+    allow_add = True
+    
+class InlineBookings(admin.TabularInline):
+   model = Booking
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('fromAccount', 'toAccount', 'description', 'amount', 'bookingDate', 'staff', 'bookingReference',)
+      }),
+   )
+   allow_add = False
+
+class OptionInvoice(admin.ModelAdmin):
+   list_display = ('id', 'description', 'contract', 'customer', 'payableuntil', 'status', 'currency', 'staff',  'lastCalculatedPrice', 'lastPricingDate', 'lastmodification', 'lastmodifiedby')
+   list_display_links = ('id','contract','customer')       
+   list_filter    = ('customer', 'contract', 'staff', 'status', 'currency', 'lastmodification')
+   ordering       = ('contract', 'customer', 'currency')
+   search_fields  = ('contract__id', 'customer__name', 'currency__description')
+   fieldsets = (
+      (_('Basics'), {
+         'fields': ('contract', 'description', 'customer', 'currency', 'payableuntil', 'status')
+      }),
+   )
+   save_as = True
+   inlines = [SalesContractInlinePosition, SalesContractPostalAddress, SalesContractPhoneAddress, SalesContractEmailAddress, InlineBookings]
+   pluginProcessor = PluginProcessor()
+   inlines.extend(pluginProcessor.getPluginAdditions("invoiceInlines"))
+   
+   def response_add(self, request, new_object):
+        obj = self.after_saving_model_and_related_inlines(request, new_object)
+        return super(OptionInvoice, self).response_add(request, obj)
+   
+   def response_change(self, request, new_object):
+        obj = self.after_saving_model_and_related_inlines(request, new_object)
+        return super(OptionInvoice, self).response_add(request, obj)
+      
+   def after_saving_model_and_related_inlines(self, request, obj):
+     try:
+       obj.recalculatePrices(date.today())
+       self.message_user(request, "Successfully calculated Prices")
+     except Product.NoPriceFound as e : 
+       self.message_user(request, "Unsuccessfull in updating the Prices "+ e.__str__())
+     return obj
+      
+   def save_model(self, request, obj, form, change):
+     if (change == True):
+       obj.lastmodifiedby = request.user
+     else:
+       obj.lastmodifiedby = request.user
+       obj.staff = request.user
+     obj.save()
+      
+   def recalculatePrices(self, request, queryset):
+     try:
+        for obj in queryset:
+            obj.recalculatePrices(date.today())
+        self.message_user(request, "Successfully recalculated Prices")
+     except Product.NoPriceFound as e : 
+        self.message_user(request, "Unsuccessfull in updating the Prices "+ e.__str__())
+        return;
+   recalculatePrices.short_description = _("Recalculate Prices")
+         
+   def createInvoicePDF(self, request, queryset):
+     for obj in queryset:
+       response = exportPDF(self, request, obj, "invoice", "/admin/crm/invoice/")
+       return response
+   createInvoicePDF.short_description = _("Create PDF of Invoice")
+   
+   def createDeliveryOrderPDF(self, request, queryset):
+      for obj in queryset:
+        response = exportPDF(self, request, obj, "deliveryorder", "/admin/crm/invoice/")
+        return response
+   createDeliveryOrderPDF.short_description = _("Create PDF of Delivery Order")
+         
+   def registerInvoiceInAccounting(self, request, queryset):
+      for obj in queryset:
+         obj.registerinvoiceinaccounting(request)
+         self.message_user(request, _("Successfully registered Invoice in the Accounting"))
+   registerInvoiceInAccounting.short_description = _("Register Invoice in Accounting")
+   
+   #def unregisterInvoiceInAccounting(self, request, queryset):
+      #for obj in queryset:
+         #obj.createPDF(deliveryorder=True)
+         #self.message_user(request, _("Successfully unregistered Invoice in the Accounting"))
+   #unregisterInvoiceInAccounting.short_description = _("Unregister Invoice in Accounting")
+   
+   def registerPaymentInAccounting(self, request, queryset):
+     form = None
+     if request.POST.get('post'):
+        if 'cancel' in request.POST:
+            self.message_user(request, _("Canceled registeration of payment in the accounting"))
+            return 
+        elif 'register' in request.POST:
+            form = self.SeriesForm(request.POST)
+            if form.is_valid():
+                series = form.cleaned_data['series']
+                for x in queryset:
+                  y = Link(series = series, comic = x)
+                  y.save()
+                self.message_user(request, _("Successfully registered Payment in the Accounting"))
+                return HttpResponseRedirect(request.get_full_path())
+     else:
+        c = {'action_checkbox_name': helpers.ACTION_CHECKBOX_NAME, 'queryset': queryset, 'form': form, 'path':request.get_full_path()}
+        c.update(csrf(request))
+        return render_to_response('admin/crm/registerPayment.html', c, context_instance=RequestContext(request))
+
+   registerPaymentInAccounting.short_description = _("Register Payment in Accounting")
+   
+   actions = ['recalculatePrices', 'createDeliveryOrderPDF', 'createInvoicePDF', 'registerInvoiceInAccounting', 'unregisterInvoiceInAccounting', 'registerPaymentInAccounting']
+   pluginProcessor = PluginProcessor()
+   actions.extend(pluginProcessor.getPluginAdditions("invoiceActions"))
+
+
+class OptionQuote(admin.ModelAdmin):
+   list_display = ('id', 'description', 'contract', 'customer', 'currency', 'validuntil', 'status', 'staff', 'lastmodifiedby', 'lastCalculatedPrice', 'lastPricingDate', 'lastmodification')
+   list_display_links = ('id','contract','customer', 'currency')        
+   list_filter    = ('customer', 'contract', 'currency', 'staff', 'status', 'lastmodification')
+   ordering       = ('contract', 'customer', 'currency')
+   search_fields  = ('contract__id', 'customer__name', 'currency__description')
+
+   fieldsets = (
+      (_('Basics'), {
+         'fields': ('contract', 'description', 'customer', 'currency', 'validuntil', 'staff','status')
+      }),
+   )
+   save_as = True
+   inlines = [SalesContractInlinePosition, SalesContractPostalAddress, SalesContractPhoneAddress, SalesContractEmailAddress]
+   pluginProcessor = PluginProcessor()
+   inlines.extend(pluginProcessor.getPluginAdditions("quoteInlines"))
+   
+   def response_add(self, request, new_object):
+        obj = self.after_saving_model_and_related_inlines(request, new_object)
+        return super(OptionQuote, self).response_add(request, obj)
+         
+   def response_change(self, request, new_object):
+        obj = self.after_saving_model_and_related_inlines(request, new_object)
+        return super(OptionQuote, self).response_change(request, obj)
+
+   def after_saving_model_and_related_inlines(self, request, obj):
+     try:
+       obj.recalculatePrices(date.today())
+       self.message_user(request, "Successfully calculated Prices")
+     except Product.NoPriceFound as e : 
+       self.message_user(request, "Unsuccessfull in updating the Prices "+ e.__str__())
+     return obj
+   
+   def save_model(self, request, obj, form, change):
+     if (change == True):
+       obj.lastmodifiedby = request.user
+     else:
+       obj.lastmodifiedby = request.user
+       obj.staff = request.user
+     obj.save()
+
+   def recalculatePrices(self, request, queryset):
+     try:
+        for obj in queryset:
+           obj.recalculatePrices(date.today())
+           self.message_user(request, _("Successfully recalculated Prices"))
+     except Product.NoPriceFound as e : 
+        self.message_user(request, _("Unsuccessfull in updating the Prices ")+ e.__str__())
+        return;
+   recalculatePrices.short_description = _("Recalculate Prices")
+
+   def createInvoice(self, request, queryset):
+      for obj in queryset:
+         invoice = obj.createInvoice()
+         self.message_user(request, _("Invoice created"))
+         response = HttpResponseRedirect('/admin/crm/invoice/'+str(invoice.id))
+      return response
+   createInvoice.short_description = _("Create Invoice")
+         
+   def createQuotePDF(self, request, queryset):
+      for obj in queryset:
+        response = exportPDF(self, request, obj, "quote", "/admin/crm/quote/")
+        return response
+   createQuotePDF.short_description = _("Create PDF of Quote")
+         
+   def createPurchaseConfirmationPDF(self, request, queryset):
+      for obj in queryset:
+       response = exportPDF(self, request, obj, "purchaseconfirmation", "/admin/crm/quote/")
+       return response
+   createPurchaseConfirmationPDF.short_description = _("Create PDF of Purchase Confirmation")
+
+   actions = ['recalculatePrices', 'createInvoice', 'createQuotePDF', 'createPurchaseConfirmationPDF']
+   pluginProcessor = PluginProcessor()
+   inlines.extend(pluginProcessor.getPluginAdditions("quoteActions"))
+
+class OptionPurchaseOrder(admin.ModelAdmin):
+   list_display = ('id', 'description', 'contract', 'supplier', 'status', 'currency', 'staff', 'lastmodifiedby', 'lastCalculatedPrice', 'lastPricingDate', 'lastmodification')
+   list_display_links = ('id','contract','supplier', )        
+   list_filter    = ('supplier', 'contract', 'staff', 'status', 'currency', 'lastmodification')
+   ordering       = ('contract', 'supplier', 'currency')
+   search_fields  = ('contract__id', 'supplier__name', 'currency_description')
+
+   fieldsets = (
+      (_('Basics'), {
+         'fields': ('contract', 'description', 'supplier', 'currency', 'status')
+      }),
+   )
+   
+   def save_model(self, request, obj, form, change):
+     if (change == True):
+       obj.lastmodifiedby = request.user
+     else:
+       obj.lastmodifiedby = request.user
+       obj.staff = request.user
+     obj.save()
+         
+   def createPurchseOrderPDF(self, request, queryset):
+      for obj in queryset:
+       response = exportPDF(self, request, obj, "purchaseorder", "/admin/crm/purchaseorder/")
+       return response
+   createPurchseOrderPDF.short_description = _("Create PDF of Purchase Order")
+   
+   actions = ['createPurchseOrderPDF']
+   pluginProcessor = PluginProcessor()
+   actions.extend(pluginProcessor.getPluginAdditions("purchaseOrderActions"))
+   
+   save_as = True
+   inlines = [PurchaseOrderInlinePosition, PurchaseOrderPostalAddress, PurchaseOrderPhoneAddress, PurchaseOrderEmailAddress]
+   pluginProcessor = PluginProcessor()
+   inlines.extend(pluginProcessor.getPluginAdditions("purchaseOrderInlines"))
+
+class ProductPrice(admin.TabularInline):
+   model = Price
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('', {
+         'fields': ('price', 'validfrom', 'validuntil', 'unit', 'customerGroup', 'currency')
+      }),
+   )
+   allow_add = True
+   
+class ProductUnitTransform(admin.TabularInline):
+   model = UnitTransform
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('', {
+         'fields': ('fromUnit', 'toUnit', 'factor', )
+      }),
+   )
+   allow_add = True
+
+class OptionProduct(admin.ModelAdmin):
+   list_display = ('productNumber', 'title','defaultunit', 'tax', 'accoutingProductCategorie')
+   list_display_links = ('productNumber',)
+   fieldsets = (
+      (_('Basics'), {
+         'fields': ('productNumber', 'title', 'description', 'defaultunit', 'tax', 'accoutingProductCategorie')
+      }),)
+   inlines = [ProductPrice, ProductUnitTransform]
+   
+class ContactPostalAddress(admin.StackedInline):
+   model = PostalAddressForContact
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('prefix', 'prename', 'name', 'addressline1', 'addressline2', 'addressline3', 'addressline4', 'zipcode', 'town', 'state', 'country', 'purpose')
+      }),
+   )
+   allow_add = True
+   
+class ContactPhoneAddress(admin.TabularInline):
+   model = PhoneAddressForContact
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('phone', 'purpose',)
+      }),
+   )
+   allow_add = True
+   
+class ContactEmailAddress(admin.TabularInline):
+   model = EmailAddressForContact
+   extra = 1
+   classes = ('collapse-open',)
+   fieldsets = (
+      ('Basics', {
+         'fields': ('email', 'purpose',)
+      }),
+   )
+   allow_add = True
+
+class OptionCustomer(admin.ModelAdmin):
+   list_display = ('id', 'name', 'defaultCustomerBillingCycle', )
+   fieldsets = (('', {'fields': ('name', 'defaultCustomerBillingCycle', 'ismemberof',)}),)
+   allow_add = True   
+   ordering       = ('id', 'name')
+   search_fields  = ('id', 'name')
+   inlines = [ContactPostalAddress, ContactPhoneAddress, ContactEmailAddress]
+   pluginProcessor = PluginProcessor()
+   inlines.extend(pluginProcessor.getPluginAdditions("customerInline"))
+
+   def createContract(self, request, queryset):
+      for obj in queryset:
+         contract = obj.createContract(request)
+         response = HttpResponseRedirect('/admin/crm/contract/'+str(contract.id))
+      return response
+   createContract.short_description = _("Create Contract")
+   
+   def createQuote(self, request, queryset):
+      for obj in queryset:
+         quote = obj.createQuote()
+         response = HttpResponseRedirect('/admin/crm/quote/'+str(quote.id))
+      return response
+   createQuote.short_description = _("Create Quote")
+   
+   def createInvoice(self, request, queryset):
+      for obj in queryset:
+         invoice = obj.createInvoice()
+         response = HttpResponseRedirect('/admin/crm/invoice/'+str(invoice.id))
+      return response
+   createInvoice.short_description = _("Create Invoice")
+   
+   def save_model(self, request, obj, form, change):
+     if (change == True):
+       obj.lastmodifiedby = request.user
+     else:
+       obj.lastmodifiedby = request.user
+       obj.staff = request.user
+     obj.save()
+   actions = ['createContract', 'createInvoice', 'createQuote']
+   pluginProcessor = PluginProcessor()
+   inlines.extend(pluginProcessor.getPluginAdditions("customerActions"))
+
+class OptionCustomerGroup(admin.ModelAdmin):
+   list_display = ('id', 'name' )
+   fieldsets = (('', {'fields': ('name',)}),)
+   allow_add = True
+
+class OptionSupplier(admin.ModelAdmin):
+   list_display = ('id', 'name')
+   fieldsets = (('', {'fields': ('name',)}),)
+   inlines = [ContactPostalAddress, ContactPhoneAddress, ContactEmailAddress]
+   allow_add = True
+   
+   def save_model(self, request, obj, form, change):
+     if (change == True):
+       obj.lastmodifiedby = request.user
+     else:
+       obj.lastmodifiedby = request.user
+       obj.staff = request.user
+     obj.save()
+   
+class OptionUnit(admin.ModelAdmin):
+   list_display = ('id', 'description', 'shortName', 'isAFractionOf', 'fractionFactorToNextHigherUnit')
+   fieldsets = (('', {'fields': ('description', 'shortName', 'isAFractionOf', 'fractionFactorToNextHigherUnit')}),)
+   allow_add = True
+      
+class OptionCurrency(admin.ModelAdmin):
+   list_display = ('id', 'description', 'shortName', 'rounding')
+   fieldsets = (('', {'fields': ('description', 'shortName', 'rounding')}),)
+   allow_add = True
+   
+class OptionTax(admin.ModelAdmin):
+   list_display = ('id', 'taxrate', 'name', 'accountActiva', 'accountPassiva')
+   fieldsets = (('', {'fields': ('taxrate', 'name', 'accountActiva', 'accountPassiva')}),)
+   allow_add = True
+   
+class OptionCustomerBillingCycle(admin.ModelAdmin):
+   list_display = ('id', 'timeToPaymentDate', 'name')
+   fieldsets = (('', {'fields': ('timeToPaymentDate', 'name',)}),)
+   allow_add = True
+
+ 
+admin.site.register(Customer, OptionCustomer)
+admin.site.register(CustomerGroup, OptionCustomerGroup)
+admin.site.register(Supplier, OptionSupplier)
+admin.site.register(Quote, OptionQuote)
+admin.site.register(Invoice, OptionInvoice)
+admin.site.register(Unit, OptionUnit)
+admin.site.register(Currency, OptionCurrency)
+admin.site.register(Tax, OptionTax)
+admin.site.register(CustomerBillingCycle, OptionCustomerBillingCycle)
+admin.site.register(Contract, OptionContract)
+admin.site.register(PurchaseOrder, OptionPurchaseOrder)
+admin.site.register(Product, OptionProduct)
