@@ -196,7 +196,7 @@ class Account(models.Model):
 
 
 class ProductCategory(models.Model):
-    title = models.CharField(verbose_name=_("Product Categorie Title"), max_length=50)
+    title = models.CharField(verbose_name=_("Product Category Title"), max_length=50)
     profitAccount = models.ForeignKey(Account, verbose_name=_("Profit Account"),
                                       limit_choices_to={"accountType": "E"},
                                       related_name="db_profit_account")
@@ -204,7 +204,7 @@ class ProductCategory(models.Model):
                                     related_name="db_loss_account")
 
     class Meta():
-        verbose_name = _('Product Categorie')
+        verbose_name = _('Product Category')
         verbose_name_plural = _('Product Categories')
 
     def __unicode__(self):
@@ -216,7 +216,7 @@ class Booking(models.Model):
     toAccount = models.ForeignKey(Account, verbose_name=_("To Account"), related_name="db_booking_toaccount")
     amount = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_("Amount"))
     description = models.CharField(verbose_name=_("Description"), max_length=120, null=True, blank=True)
-    bookingReference = models.ForeignKey('crm_core.Invoice', verbose_name=_("Booking Reference"), null=True, blank=True)
+    bookingReference = models.ForeignKey('crm.Invoice', verbose_name=_("Booking Reference"), null=True, blank=True)
     bookingDate = models.DateTimeField(verbose_name=_("Booking at"))
     accountingPeriod = models.ForeignKey(AccountingPeriod, verbose_name=_("AccountingPeriod"))
     staff = models.ForeignKey(settings.AUTH_USER_MODEL, limit_choices_to={'is_staff': True}, blank=True,

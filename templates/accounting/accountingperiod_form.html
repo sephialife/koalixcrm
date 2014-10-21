@@ -5,7 +5,7 @@
 {% block title %}{% trans "Accouting Period" %}{% endblock %}
 
 {% block breadcrumb_menu %}
-    <li class="active"><a href="{% url 'accoutingperiod_list' %}">{% trans "Currencies" %}</a></li>
+    <li class="active"><a href="{% url 'accountingperiod_list' %}">{% trans "Currencies" %}</a></li>
     <li class="active">{% if currency %}{% trans "Edit Accounting Period" %}{% else %}{% trans "Create Accouting Period" %}{% endif%}</li>
 {% endblock %}
 
@@ -29,7 +29,7 @@
                 {% trans "Save" %}
             </button>
 
-            <button type="button" class="btn btn-default" onclick="window.location.assign('{% url 'accoutingperiod_list' %}')">
+            <button type="button" class="btn btn-default" onclick="window.location.assign('{% url 'accountingperiod_list' %}')">
                 {% trans "Cancel" %}
             </button>
 

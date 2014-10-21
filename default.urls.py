@@ -4,7 +4,7 @@ from django.conf.urls import patterns, include, url
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from mezzanine.core.views import direct_to_template
-from crm_core.views import login_user, UpdateUserProfile, ListCustomers, ListSuppliers, ListCurrencies, ListTaxes, \
+from crm.views import login_user, UpdateUserProfile, ListCustomers, ListSuppliers, ListCurrencies, ListTaxes, \
     ListUnits, ListProducts, ListBillingCycles, ListPurchaseOrders, ListCustomerGroups, ListContracts, ListInvoice, \
     ListQuotes, CreateCustomer, CreateSupplier, CreateProduct, CreateBillingCycle, CreateContract, CreateCurrency, \
     CreateInvoice, CreatePurchaseOrder, CreateCustomerGroup, CreateQuote, CreateTax, CreateUnit, EditProduct, \

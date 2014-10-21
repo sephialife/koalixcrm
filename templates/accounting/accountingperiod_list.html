@@ -14,18 +14,18 @@
         {% if accountingperiod_list %}
         <table class="table table-striped table-advance">
             <tr><th>{% trans "Title" %}</th><th>{% trans "Begin" %}</th><th>{% trans "End" %}</th><th></th></tr>
-            {% for accoutingperiod in accountingperiod_list %}
+            {% for accountingperiod in accountingperiod_list %}
                 <tr>
-                    <td>{{ accoutingperiod.title }}</td>
-                    <td>{{ accoutingperiod.begin }}</td>
-                    <td>{{ accoutingperiod.end }}</td>
+                    <td>{{ accountingperiod.title }}</td>
+                    <td>{{ accountingperiod.begin }}</td>
+                    <td>{{ accountingperiod.end }}</td>
                     <td>
                         <p class="pull-right">
-                        {% if perms.crm_core.change_currency %}
-                        <button type="button" class="btn btn-sm btn-primary" onclick="window.location.assign('{% url 'accoutingperiod_edit' accoutingperiod.pk %}')">{% trans "Edit" %}</button>
+                        {% if perms.accouting.change_accoutingperiod %}
+                        <button type="button" class="btn btn-sm btn-primary" onclick="window.location.assign('{% url 'accountingperiod_edit' accountingperiod.pk %}')">{% trans "Edit" %}</button>
                         {% endif %}
-                        {% if perms.crm_core.delete_currency %}
-                        <button type="button" class="btn btn-sm btn-danger" onclick="window.location.assign('{% url 'accoutingperiod_delete' accoutingperiod.pk %}')">{% trans "Delete" %}</button>
+                        {% if perms.accouting.delete_accoutingperiod %}
+                        <button type="button" class="btn btn-sm btn-danger" onclick="window.location.assign('{% url 'accountingperiod_delete' accountingperiod.pk %}')">{% trans "Delete" %}</button>
                         {% endif %}
                         </p>
                     </td>
@@ -34,7 +34,7 @@
         </table>
         {% endif %}
         {% if perms.accouting.add_accoutingperiod %}
-        <p><a href="{% url 'accoutingperiod_create' %}">{% trans "Create a new accouting period" %}</a></p>
+        <p><a href="{% url 'accountingperiod_create' %}">{% trans "Create a new accouting period" %}</a></p>
         {% endif %}
     </div>
 {% endblock %}

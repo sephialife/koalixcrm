@@ -262,7 +262,7 @@ INSTALLED_APPS = (
     "bootstrap3",
     "admin_backup",
     "accounting",
-    "crm_core",
+    "crm",
     "subscriptions",
     # Uncomment the following if you want to use mezzanine's blog plugin
     # "mezzanine.blog",

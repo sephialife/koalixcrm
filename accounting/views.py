@@ -3,6 +3,7 @@ from os import path
 
 from braces.views import PermissionRequiredMixin, LoginRequiredMixin
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
+from extra_views import UpdateWithInlinesView, InlineFormSet, NamedFormsetsMixin, CreateWithInlinesView
 from django.core.servers.basehttp import FileWrapper
 from django.http import Http404
 from django.http import HttpResponse
@@ -18,11 +19,12 @@ class CreateAccountingPeriod(LoginRequiredMixin, PermissionRequiredMixin, Create
     success_url = reverse_lazy('accountingperiod_list')
 
 
-class EditAccountingPeriod(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class EditAccountingPeriod(LoginRequiredMixin, PermissionRequiredMixin, NamedFormsetsMixin, UpdateWithInlinesView):
     model = AccountingPeriod
     permission_required = 'accounting.change_accountingperiod'
     login_url = settings.LOGIN_URL
     success_url = reverse_lazy('accountingperiod_list')
+    fields = ['title', 'begin', 'end']
 
 
 class DeleteAccountingPeriod(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
