@@ -9,7 +9,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core import serializers
 from django.contrib import auth
-from filebrowser_safe.fields import FileBrowseField
 from django_fsm import FSMIntegerField, transition
 
 from const.country import COUNTRIES
@@ -27,9 +26,8 @@ from const.states import InvoiceStatesEnum, PurchaseOrderStatesEnum, QuoteStates
 class PostalAddress(models.Model):
     addressline1 = models.CharField(max_length=200, verbose_name=_("Addressline 1"), blank=True, null=True)
     addressline2 = models.CharField(max_length=200, verbose_name=_("Addressline 2"), blank=True, null=True)
-    # tfr, 10-13-14, v0.2: I'm not sure if these are really needed. Leaving outcommented for a few releases
-    # addressline3 = models.CharField(max_length=200, verbose_name=_("Addressline 3"), blank=True, null=True)
-    # addressline4 = models.CharField(max_length=200, verbose_name=_("Addressline 4"), blank=True, null=True)
+    addressline3 = models.CharField(max_length=200, verbose_name=_("Addressline 3"), blank=True, null=True)
+    addressline4 = models.CharField(max_length=200, verbose_name=_("Addressline 4"), blank=True, null=True)
     zipcode = models.IntegerField(verbose_name=_("Zipcode"), blank=True, null=True)
     town = models.CharField(max_length=100, verbose_name=_("City"), blank=True, null=True)
     state = models.CharField(max_length=100, verbose_name=_("State"), blank=True, null=True)
@@ -939,65 +937,3 @@ class PurchaseOrderPosition(Position):
 
     def __unicode__(self):
         return _("Purchaseorder Position") + ": " + str(self.id)
-
-
-class XSLFile(models.Model):
-    title = models.CharField(verbose_name=_("Title"), max_length=100, blank=True, null=True)
-    xslfile = FileBrowseField(verbose_name=_("XSL File"), max_length=200)
-
-    class Meta():
-        verbose_name = _('XSL File')
-        verbose_name_plural = _('XSL Files')
-
-    def __unicode__(self):
-        return self.title
-
-
-class TemplateSet(models.Model):
-    organisationname = models.CharField(verbose_name=_("Name of the Organisation"), max_length=200)
-    title = models.CharField(verbose_name=_("Title"), max_length=100)
-    invoiceXSLFile = models.ForeignKey(XSLFile, verbose_name=_("XSL File for Invoice"),
-                                       related_name="db_reltemplateinvoice")
-    quoteXSLFile = models.ForeignKey(XSLFile, verbose_name=_("XSL File for Quote"), related_name="db_reltemplatequote")
-    purchaseorderXSLFile = models.ForeignKey(XSLFile, verbose_name=_("XSL File for Purchaseorder"),
-                                             related_name="db_reltemplatepurchaseorder")
-    purchaseconfirmationXSLFile = models.ForeignKey(XSLFile, verbose_name=_("XSL File for Purchase Confirmation"),
-                                                    related_name="db_reltemplatepurchaseconfirmation")
-    deilveryorderXSLFile = models.ForeignKey(XSLFile, verbose_name=_("XSL File for Deilvery Order"),
-                                             related_name="db_reltemplatedeliveryorder")
-    profitLossStatementXSLFile = models.ForeignKey(XSLFile, verbose_name=_("XSL File for Profit Loss Statement"),
-                                                   related_name="db_reltemplateprofitlossstatement")
-    balancesheetXSLFile = models.ForeignKey(XSLFile, verbose_name=_("XSL File for Balancesheet"),
-                                            related_name="db_reltemplatebalancesheet")
-    logo = FileBrowseField(verbose_name=_("Logo for the PDF generation"), blank=True, null=True, max_length=200)
-    bankingaccountref = models.CharField(max_length=60, verbose_name=_("Reference to Banking Account"), blank=True,
-                                         null=True)
-    addresser = models.CharField(max_length=200, verbose_name=_("Addresser"), blank=True, null=True)
-    fopConfigurationFile = FileBrowseField(verbose_name=_("FOP Configuration File"), blank=True, null=True, max_length=200)
-    footerTextsalesorders = models.TextField(verbose_name=_("Footer Text On Salesorders"), blank=True, null=True)
-    headerTextsalesorders = models.TextField(verbose_name=_("Header Text On Salesorders"), blank=True, null=True)
-    headerTextpurchaseorders = models.TextField(verbose_name=_("Header Text On Purchaseorders"), blank=True, null=True)
-    footerTextpurchaseorders = models.TextField(verbose_name=_("Footer Text On Purchaseorders"), blank=True, null=True)
-    pagefooterleft = models.CharField(max_length=40, verbose_name=_("Page Footer Left"), blank=True, null=True)
-    pagefootermiddle = models.CharField(max_length=40, verbose_name=_("Page Footer Middle"), blank=True, null=True)
-
-    class Meta():
-        verbose_name = _('Templateset')
-        verbose_name_plural = _('Templatesets')
-
-    def __unicode__(self):
-        return self.title
-
-
-class UserExtension(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    image = models.ImageField(upload_to='avatars/', default='avatars/avatar.jpg', null=True, blank=True)
-    defaultTemplateSet = models.ForeignKey(TemplateSet, null=True, blank=True)
-    defaultCurrency = models.ForeignKey(Currency, null=True, blank=True)
-
-    class Meta():
-        verbose_name = _('User Extension')
-        verbose_name_plural = _('User Extensions')
-
-    def __unicode__(self):
-        return self.user.__unicode__()
