@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load check_type %}
+{% block meta_title %}{% trans "Bookings" %}{% endblock %}
+{% block title %}{% trans "Bookings" %}{% endblock %}
+
+{% block breadcrumb_menu %}
+    <li class="active">{% trans "Bookings" %}</li>
+{% endblock %}
+
+{% block main %}
+    <div class="content-panel" style="margin: 30px; padding: 10px;">
+    <h4><i class="fa fa-angle-right"></i> {% trans "Bookings" %}</h4>
+        {% if booking_list %}
+        <table class="table table-striped table-advance">
+            <tr><th>{% trans "From Account" %}</th><th>{% trans "To Account" %}</th><th>{% trans "Amount" %}</th> </tr>
+            {% for booking in booking_list %}
+                <tr>
+                    <td>{{ booking.fromAccount }}</td>
+                    <td>{{ booking.toAccount }}</td>
+                    <td>{{ booking.amount }}</td>
+                    <td>
+                        <p class="pull-right">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="window.location.assign('{% url 'booking_edit' booking.pk %}')">{% trans "Edit" %}</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="window.location.assign('{% url 'booking_delete' booking.pk %}')">{% trans "Delete" %}</button>
+                        </p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        {% if perms.crm_core.add_booking %}
+        <p><a href="{% url 'booking_create' %}">{% trans "Create a new booking" %}</a></p>
+        {% endif %}
+    </div>
+{% endblock %}

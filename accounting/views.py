@@ -9,8 +9,30 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
-from accounting.models import AccountingPeriod
+from accounting.models import AccountingPeriod,Account,AccountingAccount,Booking
 
+class CreateAccount(LoginRequiredMixin, PermissionRequiredMixin,CreateView):
+    model =Account
+    permission_required = 'accounting.add_account'
+    login_url = settings.LOGIN_URL
+    success_url = reverse_lazy('account_list')
+
+class ListAccount(LoginRequiredMixin, PermissionRequiredMixin,ListView):
+    model = Account
+    permission_required = 'accounting.list_account'
+    login_url = settings.LOGIN_URL
+
+class EditAccount(LoginRequiredMixin, PermissionRequiredMixin,UpdateView):
+    model =Account
+    permission_required = 'accounting.update_account'
+    login_url = settings.LOGIN_URL
+    success_url = reverse_lazy('account_list')
+
+class DeleteAccount(LoginRequiredMixin, PermissionRequiredMixin,DeleteView):
+    model =Account
+    permission_required = 'accounting.delete_account'
+    login_url = settings.LOGIN_URL
+    success_url = reverse_lazy('account_list')
 
 class CreateAccountingPeriod(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = AccountingPeriod
@@ -39,6 +61,48 @@ class ListAccountingPeriod(LoginRequiredMixin, PermissionRequiredMixin, ListView
     permission_required = 'accounting.view_accoutingperiod'
     login_url = settings.LOGIN_URL
     fields = ['title', 'begin', 'end']
+
+class CreateBooking(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
+    model = Booking
+    permission_required = 'accounting.create_booking'
+    login_url = settings.LOGIN_URL
+    fields = ['fromAccount','toAccount','amount','description','staff',
+              'lastModifiedBy','bookingReference','bookingDate','accountingPeriod',
+              ]
+    success_url = reverse_lazy('booking_list')
+
+class ListBooking(LoginRequiredMixin,PermissionRequiredMixin,ListView):
+    model = Booking
+    permission_required = 'accounting.list_booking'
+    login_url = settings.LOGIN_URL
+    fields = ['fromAccount','toAccount','amount','description','staff',
+              'lastModifiedBy','bookingReference','bookingDate','accountingPeriod',
+              ]
+    success_url = reverse_lazy('booking_list')
+
+class EditBooking(LoginRequiredMixin,PermissionRequiredMixin,UpdateView):
+    model = Booking
+    permission_required = 'accounting.edit_booking'
+    login_url = settings.LOGIN_URL
+    fields = ['fromAccount','toAccount','amount','description','staff',
+              'lastModifiedBy','bookingReference','bookingDate','accountingPeriod',
+              ]
+    success_url = reverse_lazy('booking_list')
+
+
+class DetailBooking(LoginRequiredMixin,PermissionRequiredMixin,ListView):
+    model = Booking
+    permission_required = 'accounting.detail_booking'
+    login_url = settings.LOGIN_URL
+    fields = ['fromAccount','toAccount','amount','description','staff',
+              'lastModifiedBy','bookingReference','bookingDate','accountingPeriod',
+              ]
+
+class DeleteBooking(LoginRequiredMixin,PermissionRequiredMixin,DeleteView):
+    model = Booking
+    permission_required = 'accounting.delete_booking'
+    login_url = settings.LOGIN_URL
+    success_url = reverse_lazy('booking_list')
 
 
 def export_pdf(calling_model_admin, request, where_to_create_form, what_to_create, redirect_to):

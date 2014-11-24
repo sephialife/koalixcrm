@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n bootstrap3 %}
+
+{% block meta_title %}{% trans "Accounts" %}{% endblock %}
+{% block title %}{% trans "Accounts" %}{% endblock %}
+
+{% block breadcrumb_menu %}
+    <li class="active"><a href="{% url 'account_list' %}">{% trans "Accounts" %}</a></li>
+    <li class="active">{% if account %}{% trans "Edit Account" %}{% else %}{% trans "Create account" %}{% endif%}</li>
+{% endblock %}
+
+{% block rightbar %}
+{% endblock %}
+
+{% block main %}
+    <div class="form-panel" style="margin: 30px">
+    <h4 class="mb"><i class="fa fa-angle-right"></i>
+    {% if account %}{% trans "Edit Account" %}{% else %}{% trans "Create Account" %}{% endif%}</h4>
+    <form method="POST" action="." class="form form-horizontal" style="margin: 30px;">
+        {% csrf_token %}
+
+            <div class="row well">
+                <div class="col-lg-6">
+                    <div style="margin: 0 12px 0 12px;">
+                        {%  bootstrap_form form %}
+                    </div>
+                </div>
+
+
+            </div>
+
+            <button type='submit' class='btn btn-primary'>
+                {% trans "Save" %}
+            </button>
+
+            <button type="button" class="btn btn-default"
+                    onclick="window.location.assign('{% url 'account_list' %}')">
+                {% trans "Cancel" %}
+            </button>
+
+        </form>
+    </div>
+{% endblock %}

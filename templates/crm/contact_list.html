@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Accounting Period" %}{% endblock %}
+{% block title %}{% trans "Accounting Period" %}{% endblock %}
+
+{% block breadcrumb_menu %}
+    <li class="active">{% trans "Accounting Period" %}</li>
+{% endblock %}
+
+{% block main %}
+    <div class="content-panel" style="margin: 30px; padding: 10px;">
+        <h4><i class="fa fa-angle-right"></i>/h4>
+            <ul>
+                {% for obj in object_list %}
+                <li>{{ obj }}</li>
+                {% endfor %}
+            </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Accounts" %}{% endblock %}
+{% block title %}{% trans "Accounts" %}{% endblock %}
+
+{% block breadcrumb_menu %}
+    <li class="active">{% trans "Accounts" %}</li>
+{% endblock %}
+
+{% block main %}
+    <div class="content-panel" style="margin: 30px; padding: 10px;">
+    <h4><i class="fa fa-angle-right"></i> {% trans "Accounts" %}</h4>
+        {% if account_list %}
+        <table class="table table-striped table-advance">
+            <tr> <th>{% trans "Type" %}</th><th>{% trans "Title" %}</th><th>{% trans "Number" %}</th><th>{% trans "Current balance" %}</th></tr>
+            {% for account in account_list %}
+                <tr>
+                    <td>{{ account.accountType  }}</td>
+                    <td>{{ account.title }}</td>
+                    <td>{{ account.accountNumber }}</td>
+                    <td>{{ account.current_balance }}</td>
+                    <td>
+                        <p class="pull-right">
+                        {% if perms.crm_core.change_account %}
+                        <button type="button" class="btn btn-sm btn-primary" onclick="window.location.assign('{% url 'account_edit' account.pk %}')">{% trans "Edit" %}</button>
+                        {% endif %}
+                        {% if perms.crm_core.delete_account %}
+                        <button type="button" class="btn btn-sm btn-danger" onclick="window.location.assign('{% url 'account_delete' account.pk %}')">{% trans "Delete" %}</button>
+                        {% endif %}
+                        </p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        {% if perms.crm_core.add_account %}
+        <p><a href="{% url 'account_create' %}">{% trans "Create a new account" %}</a></p>
+        {% endif %}
+    </div>
+{% endblock %}

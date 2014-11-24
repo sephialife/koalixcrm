@@ -45,7 +45,7 @@
 
 <body id="{% block body_id %}body{% endblock %}">
 
-<section id="container" >
+<section id="container1" >
 
       <!-- **********************************************************************************************************************************************************
       TOP BAR CONTENT & NOTIFICATIONS
@@ -133,7 +133,6 @@
 
             </div>
             <div class="top-menu nav pull-right" style="margin-top: 12px;">
-                {% search_form "all" %}
             </div>
         </header>
       <!--header end-->
@@ -222,12 +221,23 @@
                               {% if perms.crm_core.view_purchaseorder %}
                                 <li><a href="/purchaseorders/">{% trans "Purchase Orders" %}</a></li>
                               {% endif %}
+                                <li><a href="/sales/list/">{% trans "Sales Orders" %}</a></li>
                               {% if perms.crm_core.view_invoice %}
                                 <li><a href="/invoices/">{% trans "Invoices" %}</a></li>
                               {% endif %}
                           </ul>
                       </li>
                       {% endif %}
+                      <li class="sub-menu">
+                          <a href="javascript:;" >
+                              <i class="fa fa-bar-chart"></i>
+                              <span>{% trans "Reports" %}</span>
+                          </a>
+                          <ul class="sub">
+                                <li><a href="/reporting/customer-reports">{% trans "Customer Reports" %}</a></li>
+                                <li><a href="/reporting/sales-reports">{% trans "Sales Reports" %}</a></li>
+                          </ul>
+                      </li>
 
                       {% if perms.accounting.view_accountingPeriod or perms.accounting.view_account or perms.accounting.view_productcategory%}
                           <li class="sub-menu">
@@ -240,7 +250,7 @@
                                       <li><a href="/accountingperiod/">{% trans "Accounting Periods" %}</a></li>
                                   {% endif %}
                                   {% if perms.accounting.view_account %}
-                                      <li><a href="/account/">{% trans "Accounts" %}</a></li>
+                                      <li><a href="/account/list">{% trans "Accounts" %}</a></li>
                                   {% endif %}
                                   {% if perms.accounting.view_productcategory %}
                                       <li><a href="/productcategory/">{% trans "Product Categories" %}</a></li>

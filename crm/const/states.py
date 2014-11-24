@@ -2,7 +2,7 @@
 
 from django.utils.translation import ugettext_lazy as _
 from enum import Enum
-
+##from django.db import models
 
 class InvoiceStatesEnum(Enum):
     Open = 1
@@ -31,4 +31,5 @@ class PurchaseOrderStatesEnum(Enum):
     Delayed = 3
     Delivered = 4
     Invoice_registered = 5
-    Invoice_payed = 6
+    invoice_payed = 6
+

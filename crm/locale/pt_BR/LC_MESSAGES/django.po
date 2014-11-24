@@ -1,0 +1,1566 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-23 03:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: crm/admin.py:138 crm/admin.py:154 crm/admin.py:171 crm/admin.py:188
+#: crm/admin.py:262 crm/admin.py:364 crm/admin.py:439 crm/admin.py:493
+msgid "Basics"
+msgstr "Básico"
+
+#: crm/admin.py:141 crm/admin.py:157 crm/admin.py:174
+msgid "Advanced (not editable)"
+msgstr "Avançad (não editáv)"
+
+#: crm/admin.py:199
+msgid "PurchaseOrder created"
+msgstr "Ordem de compra criada"
+
+#: crm/admin.py:202
+msgid "Create Purchaseorder"
+msgstr "Criar Ordem de compra"
+
+#: crm/admin.py:207
+msgid "Quote created"
+msgstr "Proposta criada"
+
+#: crm/admin.py:210 crm/admin.py:553
+msgid "Create Quote"
+msgstr "Criar Proposta"
+
+#: crm/admin.py:215 crm/admin.py:410
+msgid "Invoice created"
+msgstr "Fatura criada"
+
+#: crm/admin.py:218 crm/admin.py:413 crm/admin.py:560
+msgid "Create Invoice"
+msgstr "Criar fatura"
+
+#: crm/admin.py:303 crm/admin.py:405
+msgid "Recalculate Prices"
+msgstr "Recalcular Preços"
+
+#: crm/admin.py:309
+msgid "Create PDF of Invoice"
+msgstr "Cria PDF da fatura"
+
+#: crm/admin.py:315
+msgid "Create PDF of Delivery Order"
+msgstr "Criar PDF da ordem de entrega"
+
+#: crm/admin.py:320
+msgid "Successfully registered Invoice in the Accounting"
+msgstr "Fatura registrada com sucesso na contabilidade"
+
+#: crm/admin.py:321
+msgid "Register Invoice in Accounting"
+msgstr "Registrar fatura na contabilidade"
+
+#: crm/admin.py:333
+msgid "Canceled registeration of payment in the accounting"
+msgstr "Cancelar registro de pagamento na contabilidade"
+
+#: crm/admin.py:342
+msgid "Successfully registered Payment in the Accounting"
+msgstr "Pagamento registrado com sucesso na contabilidade"
+
+#: crm/admin.py:349
+msgid "Register Payment in Accounting"
+msgstr "Registrar pagamento na contabilidade"
+
+#: crm/admin.py:401
+msgid "Successfully recalculated Prices"
+msgstr "Recalculo de preços realizado com sucesso"
+
+#: crm/admin.py:403
+msgid "Unsuccessfull in updating the Prices "
+msgstr "Não foi possível atualizar os preços"
+
+#: crm/admin.py:419
+msgid "Create PDF of Quote"
+msgstr "Criar PDF da proposta"
+
+#: crm/admin.py:425
+msgid "Create PDF of Purchase Confirmation"
+msgstr "Criar PDF do comprovante de compra"
+
+#: crm/admin.py:456
+msgid "Create PDF of Purchase Order"
+msgstr "Criar PDF da ordem de compra"
+
+#: crm/admin.py:546
+msgid "Create Contract"
+msgstr "Criar acordo"
+
+#: crm/const/country.py:6
+msgid "Afghanistan"
+msgstr "Afeganistão"
+
+#: crm/const/country.py:7
+msgid "Aland Islands"
+msgstr "ilha Aland"
+
+#: crm/const/country.py:8
+msgid "Albania"
+msgstr "Albania"
+
+#: crm/const/country.py:9
+msgid "Algeria"
+msgstr "Algeria"
+
+#: crm/const/country.py:10
+msgid "American Samoa"
+msgstr "America Samoa"
+
+#: crm/const/country.py:11
+msgid "Andorra"
+msgstr "Andora"
+
+#: crm/const/country.py:12
+msgid "Angola"
+msgstr "Angola"
+
+#: crm/const/country.py:13
+msgid "Anguilla"
+msgstr "Anguilla"
+
+#: crm/const/country.py:14
+msgid "Antarctica"
+msgstr "Antartida"
+
+#: crm/const/country.py:15
+msgid "Antigua and Barbuda"
+msgstr "Antiga e Barbuda"
+
+#: crm/const/country.py:16
+msgid "Argentina"
+msgstr "Argentina"
+
+#: crm/const/country.py:17
+msgid "Armenia"
+msgstr "Armenia"
+
+#: crm/const/country.py:18
+msgid "Aruba"
+msgstr "Aruba"
+
+#: crm/const/country.py:19
+msgid "Australia"
+msgstr "Australia"
+
+#: crm/const/country.py:20
+msgid "Austria"
+msgstr "Austria"
+
+#: crm/const/country.py:21
+msgid "Azerbaijan"
+msgstr "Azerbaijão"
+
+#: crm/const/country.py:22
+msgid "the Bahamas"
+msgstr "Bahamas"
+
+#: crm/const/country.py:23
+msgid "Bahrain"
+msgstr "Bahrain"
+
+#: crm/const/country.py:24
+msgid "Bangladesh"
+msgstr "Bangladesh"
+
+#: crm/const/country.py:25
+msgid "Barbados"
+msgstr "Barbados"
+
+#: crm/const/country.py:26
+msgid "Belarus"
+msgstr "Belarussia"
+
+#: crm/const/country.py:27
+msgid "Belgium"
+msgstr "Bélgica"
+
+#: crm/const/country.py:28
+msgid "Belize"
+msgstr "Belize"
+
+#: crm/const/country.py:29
+msgid "Benin"
+msgstr "Benin"
+
+#: crm/const/country.py:30
+msgid "Bermuda"
+msgstr "Bermudas"
+
+#: crm/const/country.py:31
+msgid "Bhutan"
+msgstr "Butão"
+
+#: crm/const/country.py:32
+msgid "Bolivia"
+msgstr "Bolívia"
+
+#: crm/const/country.py:33
+msgid "Bosnia and Herzegovina"
+msgstr "Bosnia e Herzegonia"
+
+#: crm/const/country.py:34
+msgid "Botswana"
+msgstr "Botswana"
+
+#: crm/const/country.py:35
+msgid "Bouvet Island"
+msgstr ""
+
+#: crm/const/country.py:36
+msgid "Brazil"
+msgstr "Brasil"
+
+#: crm/const/country.py:37
+msgid "British Indian Ocean Territory"
+msgstr ""
+
+#: crm/const/country.py:38
+msgid "Brunei Darussalam"
+msgstr ""
+
+#: crm/const/country.py:39
+msgid "Bulgaria"
+msgstr ""
+
+#: crm/const/country.py:40
+msgid "Burkina Faso"
+msgstr ""
+
+#: crm/const/country.py:41
+msgid "Burundi"
+msgstr ""
+
+#: crm/const/country.py:42
+msgid "Cambodia"
+msgstr ""
+
+#: crm/const/country.py:43
+msgid "Cameroon"
+msgstr ""
+
+#: crm/const/country.py:44
+msgid "Canada"
+msgstr ""
+
+#: crm/const/country.py:45
+msgid "Cape Verde"
+msgstr ""
+
+#: crm/const/country.py:46
+msgid "Cayman Islands"
+msgstr ""
+
+#: crm/const/country.py:47
+msgid "Central African Republic"
+msgstr ""
+
+#: crm/const/country.py:48
+msgid "Chad"
+msgstr ""
+
+#: crm/const/country.py:49
+msgid "Chile"
+msgstr ""
+
+#: crm/const/country.py:50
+msgid "China"
+msgstr ""
+
+#: crm/const/country.py:51
+msgid "Christmas Island"
+msgstr ""
+
+#: crm/const/country.py:52
+msgid "Cocos (Keeling) Islands"
+msgstr ""
+
+#: crm/const/country.py:53
+msgid "Colombia"
+msgstr ""
+
+#: crm/const/country.py:54
+msgid "Comoros"
+msgstr ""
+
+#: crm/const/country.py:55
+msgid "Congo"
+msgstr ""
+
+#: crm/const/country.py:56
+msgid "Democratic Republic of the Congo"
+msgstr ""
+
+#: crm/const/country.py:57
+msgid "Cook Islands"
+msgstr ""
+
+#: crm/const/country.py:58
+msgid "Costa Rica"
+msgstr ""
+
+#: crm/const/country.py:59
+msgid "Cote d'Ivoire"
+msgstr ""
+
+#: crm/const/country.py:60
+msgid "Croatia"
+msgstr ""
+
+#: crm/const/country.py:61
+msgid "Cuba"
+msgstr ""
+
+#: crm/const/country.py:62
+msgid "Cyprus"
+msgstr ""
+
+#: crm/const/country.py:63
+msgid "Czech Republic"
+msgstr ""
+
+#: crm/const/country.py:64
+msgid "Denmark"
+msgstr ""
+
+#: crm/const/country.py:65
+msgid "Djibouti"
+msgstr ""
+
+#: crm/const/country.py:66
+msgid "Dominica"
+msgstr ""
+
+#: crm/const/country.py:67
+msgid "Dominican Republic"
+msgstr ""
+
+#: crm/const/country.py:68
+msgid "Ecuador"
+msgstr ""
+
+#: crm/const/country.py:69
+msgid "Egypt"
+msgstr ""
+
+#: crm/const/country.py:70
+msgid "El Salvador"
+msgstr ""
+
+#: crm/const/country.py:71
+msgid "Equatorial Guinea"
+msgstr ""
+
+#: crm/const/country.py:72
+msgid "Eritrea"
+msgstr ""
+
+#: crm/const/country.py:73
+msgid "Estonia"
+msgstr ""
+
+#: crm/const/country.py:74
+msgid "Ethiopia"
+msgstr ""
+
+#: crm/const/country.py:75
+msgid "Falkland Islands (Malvinas)"
+msgstr ""
+
+#: crm/const/country.py:76
+msgid "Faroe Islands"
+msgstr ""
+
+#: crm/const/country.py:77
+msgid "Fiji"
+msgstr ""
+
+#: crm/const/country.py:78
+msgid "Finland"
+msgstr ""
+
+#: crm/const/country.py:79
+msgid "France"
+msgstr ""
+
+#: crm/const/country.py:80
+msgid "French Guiana"
+msgstr ""
+
+#: crm/const/country.py:81
+msgid "French Polynesia"
+msgstr ""
+
+#: crm/const/country.py:82
+msgid "French Southern and Antarctic Lands"
+msgstr ""
+
+#: crm/const/country.py:83
+msgid "Gabon"
+msgstr ""
+
+#: crm/const/country.py:84
+msgid "Gambia"
+msgstr ""
+
+#: crm/const/country.py:85
+msgid "Georgia"
+msgstr ""
+
+#: crm/const/country.py:86
+msgid "Germany"
+msgstr ""
+
+#: crm/const/country.py:87
+msgid "Ghana"
+msgstr ""
+
+#: crm/const/country.py:88
+msgid "Gibraltar"
+msgstr ""
+
+#: crm/const/country.py:89
+msgid "Greece"
+msgstr ""
+
+#: crm/const/country.py:90
+msgid "Greenland"
+msgstr ""
+
+#: crm/const/country.py:91
+msgid "Grenada"
+msgstr ""
+
+#: crm/const/country.py:92
+msgid "Guadeloupe"
+msgstr ""
+
+#: crm/const/country.py:93
+msgid "Guam"
+msgstr ""
+
+#: crm/const/country.py:94
+msgid "Guatemala"
+msgstr ""
+
+#: crm/const/country.py:95
+msgid "Guernsey"
+msgstr ""
+
+#: crm/const/country.py:96
+msgid "Guinea"
+msgstr ""
+
+#: crm/const/country.py:97
+msgid "Guinea-Bissau"
+msgstr ""
+
+#: crm/const/country.py:98
+msgid "Guyana"
+msgstr ""
+
+#: crm/const/country.py:99
+msgid "Haiti"
+msgstr ""
+
+#: crm/const/country.py:100
+msgid "Heard Island and McDonald Islands"
+msgstr ""
+
+#: crm/const/country.py:101
+msgid "Vatican City Holy See"
+msgstr ""
+
+#: crm/const/country.py:102
+msgid "Honduras"
+msgstr ""
+
+#: crm/const/country.py:103
+msgid "Hong Kong"
+msgstr ""
+
+#: crm/const/country.py:104
+msgid "Hungary"
+msgstr ""
+
+#: crm/const/country.py:105
+msgid "Iceland"
+msgstr ""
+
+#: crm/const/country.py:106
+msgid "India"
+msgstr ""
+
+#: crm/const/country.py:107
+msgid "Indonesia"
+msgstr ""
+
+#: crm/const/country.py:108
+msgid "Iran"
+msgstr ""
+
+#: crm/const/country.py:109
+msgid "Iraq"
+msgstr ""
+
+#: crm/const/country.py:110
+msgid "Ireland"
+msgstr ""
+
+#: crm/const/country.py:111
+msgid "Isle of Man"
+msgstr ""
+
+#: crm/const/country.py:112
+msgid "Israel"
+msgstr ""
+
+#: crm/const/country.py:113
+msgid "Italy"
+msgstr ""
+
+#: crm/const/country.py:114
+msgid "Jamaica"
+msgstr ""
+
+#: crm/const/country.py:115
+msgid "Japan"
+msgstr ""
+
+#: crm/const/country.py:116
+msgid "Jersey"
+msgstr ""
+
+#: crm/const/country.py:117
+msgid "Jordan"
+msgstr ""
+
+#: crm/const/country.py:118
+msgid "Kazakhstan"
+msgstr ""
+
+#: crm/const/country.py:119
+msgid "Kenya"
+msgstr ""
+
+#: crm/const/country.py:120
+msgid "Kiribati"
+msgstr ""
+
+#: crm/const/country.py:121
+msgid "North Korea"
+msgstr ""
+
+#: crm/const/country.py:122
+msgid "South Korea"
+msgstr ""
+
+#: crm/const/country.py:123
+msgid "Kuwait"
+msgstr ""
+
+#: crm/const/country.py:124
+msgid "Kyrgyzstan"
+msgstr ""
+
+#: crm/const/country.py:125
+msgid "Laos Lao"
+msgstr ""
+
+#: crm/const/country.py:126
+msgid "Latvia"
+msgstr ""
+
+#: crm/const/country.py:127
+msgid "Lebanon"
+msgstr ""
+
+#: crm/const/country.py:128
+msgid "Lesotho"
+msgstr ""
+
+#: crm/const/country.py:129
+msgid "Liberia"
+msgstr ""
+
+#: crm/const/country.py:130
+msgid "Libya Libyan Arab Jamahiriya"
+msgstr ""
+
+#: crm/const/country.py:131
+msgid "Liechtenstein"
+msgstr ""
+
+#: crm/const/country.py:132
+msgid "Lithuania"
+msgstr ""
+
+#: crm/const/country.py:133
+msgid "Luxembourg"
+msgstr ""
+
+#: crm/const/country.py:134
+msgid "Macau Macao"
+msgstr ""
+
+#: crm/const/country.py:135
+msgid "Macedonia"
+msgstr ""
+
+#: crm/const/country.py:136
+msgid "Madagascar"
+msgstr ""
+
+#: crm/const/country.py:137
+msgid "Malawi"
+msgstr ""
+
+#: crm/const/country.py:138
+msgid "Malaysia"
+msgstr ""
+
+#: crm/const/country.py:139
+msgid "Maldives"
+msgstr ""
+
+#: crm/const/country.py:140
+msgid "Mali"
+msgstr ""
+
+#: crm/const/country.py:141
+msgid "Malta"
+msgstr ""
+
+#: crm/const/country.py:142
+msgid "Marshall Islands"
+msgstr ""
+
+#: crm/const/country.py:143
+msgid "Martinique"
+msgstr ""
+
+#: crm/const/country.py:144
+msgid "Mauritania"
+msgstr ""
+
+#: crm/const/country.py:145
+msgid "Mauritius"
+msgstr ""
+
+#: crm/const/country.py:146
+msgid "Mayotte"
+msgstr ""
+
+#: crm/const/country.py:147
+msgid "Mexico"
+msgstr ""
+
+#: crm/const/country.py:148
+msgid "Micronesia"
+msgstr ""
+
+#: crm/const/country.py:149
+msgid "Moldova"
+msgstr ""
+
+#: crm/const/country.py:150
+msgid "Monaco"
+msgstr ""
+
+#: crm/const/country.py:151
+msgid "Mongolia"
+msgstr ""
+
+#: crm/const/country.py:152
+msgid "Montenegro"
+msgstr ""
+
+#: crm/const/country.py:153
+msgid "Montserrat"
+msgstr ""
+
+#: crm/const/country.py:154
+msgid "Morocco"
+msgstr ""
+
+#: crm/const/country.py:155
+msgid "Mozambique"
+msgstr ""
+
+#: crm/const/country.py:156
+msgid "Myanmar"
+msgstr ""
+
+#: crm/const/country.py:157
+msgid "Namibia"
+msgstr ""
+
+#: crm/const/country.py:158
+msgid "Nauru"
+msgstr ""
+
+#: crm/const/country.py:159
+msgid "Nepal"
+msgstr ""
+
+#: crm/const/country.py:160
+msgid "Netherlands"
+msgstr ""
+
+#: crm/const/country.py:161
+msgid "Netherlands Antilles"
+msgstr ""
+
+#: crm/const/country.py:162
+msgid "New Caledonia"
+msgstr ""
+
+#: crm/const/country.py:163
+msgid "New Zealand"
+msgstr ""
+
+#: crm/const/country.py:164
+msgid "Nicaragua"
+msgstr ""
+
+#: crm/const/country.py:165
+msgid "Niger"
+msgstr ""
+
+#: crm/const/country.py:166
+msgid "Nigeria"
+msgstr ""
+
+#: crm/const/country.py:167
+msgid "Niue"
+msgstr ""
+
+#: crm/const/country.py:168
+msgid "Norfolk Island Norfolk Island"
+msgstr ""
+
+#: crm/const/country.py:169
+msgid "Northern Mariana Islands"
+msgstr ""
+
+#: crm/const/country.py:170
+msgid "Norway"
+msgstr ""
+
+#: crm/const/country.py:171
+msgid "Oman"
+msgstr ""
+
+#: crm/const/country.py:172
+msgid "Pakistan"
+msgstr ""
+
+#: crm/const/country.py:173
+msgid "Palau"
+msgstr ""
+
+#: crm/const/country.py:174
+msgid "Palestinian Territory"
+msgstr ""
+
+#: crm/const/country.py:175
+msgid "Panama"
+msgstr ""
+
+#: crm/const/country.py:176
+msgid "Papua New Guinea"
+msgstr ""
+
+#: crm/const/country.py:177
+msgid "Paraguay"
+msgstr ""
+
+#: crm/const/country.py:178
+msgid "Peru"
+msgstr ""
+
+#: crm/const/country.py:179
+msgid "Philippines"
+msgstr ""
+
+#: crm/const/country.py:180
+msgid "Pitcairn Islands"
+msgstr ""
+
+#: crm/const/country.py:181
+msgid "Poland"
+msgstr ""
+
+#: crm/const/country.py:182
+msgid "Portugal"
+msgstr ""
+
+#: crm/const/country.py:183
+msgid "Puerto Rico"
+msgstr ""
+
+#: crm/const/country.py:184
+msgid "Qatar"
+msgstr ""
+
+#: crm/const/country.py:185
+msgid "Reunion"
+msgstr ""
+
+#: crm/const/country.py:186
+msgid "Romania"
+msgstr ""
+
+#: crm/const/country.py:187
+msgid "Russia"
+msgstr ""
+
+#: crm/const/country.py:188
+msgid "Rwanda"
+msgstr ""
+
+#: crm/const/country.py:189
+msgid "Saint Helena"
+msgstr ""
+
+#: crm/const/country.py:190
+msgid "Saint Kitts and Nevis"
+msgstr ""
+
+#: crm/const/country.py:191
+msgid "Saint Lucia"
+msgstr ""
+
+#: crm/const/country.py:192
+msgid "Saint Pierre and Miquelon"
+msgstr ""
+
+#: crm/const/country.py:193
+msgid "Saint Vincent and the Grenadines"
+msgstr ""
+
+#: crm/const/country.py:194
+msgid "Samoa"
+msgstr ""
+
+#: crm/const/country.py:195
+msgid "San Marino"
+msgstr ""
+
+#: crm/const/country.py:196
+msgid "Sao Tome and Principe"
+msgstr ""
+
+#: crm/const/country.py:197
+msgid "Saudi Arabia"
+msgstr ""
+
+#: crm/const/country.py:198
+msgid "Senegal"
+msgstr ""
+
+#: crm/const/country.py:199
+msgid "Serbia"
+msgstr ""
+
+#: crm/const/country.py:200
+msgid "Seychelles"
+msgstr ""
+
+#: crm/const/country.py:201
+msgid "Sierra Leone"
+msgstr ""
+
+#: crm/const/country.py:202
+msgid "Singapore"
+msgstr ""
+
+#: crm/const/country.py:203
+msgid "Slovakia"
+msgstr ""
+
+#: crm/const/country.py:204
+msgid "Slovenia"
+msgstr ""
+
+#: crm/const/country.py:205
+msgid "Solomon Islands"
+msgstr ""
+
+#: crm/const/country.py:206
+msgid "Somalia"
+msgstr ""
+
+#: crm/const/country.py:207
+msgid "South Africa"
+msgstr ""
+
+#: crm/const/country.py:208
+msgid "South Georgia and the South Sandwich Islands"
+msgstr ""
+
+#: crm/const/country.py:209
+msgid "Spain"
+msgstr ""
+
+#: crm/const/country.py:210
+msgid "Sri Lanka"
+msgstr ""
+
+#: crm/const/country.py:211
+msgid "Sudan"
+msgstr ""
+
+#: crm/const/country.py:212
+msgid "Suriname"
+msgstr ""
+
+#: crm/const/country.py:213
+msgid "Svalbard and Jan Mayen"
+msgstr ""
+
+#: crm/const/country.py:214
+msgid "Swaziland"
+msgstr ""
+
+#: crm/const/country.py:215
+msgid "Sweden"
+msgstr ""
+
+#: crm/const/country.py:216
+msgid "Switzerland"
+msgstr ""
+
+#: crm/const/country.py:217
+msgid "Syria"
+msgstr ""
+
+#: crm/const/country.py:218
+msgid "Taiwan"
+msgstr ""
+
+#: crm/const/country.py:219
+msgid "Tajikistan"
+msgstr ""
+
+#: crm/const/country.py:220
+msgid "Tanzania"
+msgstr ""
+
+#: crm/const/country.py:221
+msgid "Thailand"
+msgstr ""
+
+#: crm/const/country.py:222
+msgid "East Timor"
+msgstr ""
+
+#: crm/const/country.py:223
+msgid "Togo"
+msgstr ""
+
+#: crm/const/country.py:224
+msgid "Tokelau"
+msgstr ""
+
+#: crm/const/country.py:225
+msgid "Tonga"
+msgstr ""
+
+#: crm/const/country.py:226
+msgid "Trinidad and Tobago"
+msgstr ""
+
+#: crm/const/country.py:227
+msgid "Tunisia"
+msgstr ""
+
+#: crm/const/country.py:228
+msgid "Turkey"
+msgstr ""
+
+#: crm/const/country.py:229
+msgid "Turkmenistan"
+msgstr ""
+
+#: crm/const/country.py:230
+msgid "Turks and Caicos Islands"
+msgstr ""
+
+#: crm/const/country.py:231
+msgid "Tuvalu"
+msgstr ""
+
+#: crm/const/country.py:232
+msgid "Uganda"
+msgstr ""
+
+#: crm/const/country.py:233
+msgid "Ukraine"
+msgstr ""
+
+#: crm/const/country.py:234
+msgid "United Arab Emirates"
+msgstr ""
+
+#: crm/const/country.py:235
+msgid "United Kingdom"
+msgstr ""
+
+#: crm/const/country.py:236
+msgid "United States"
+msgstr ""
+
+#: crm/const/country.py:237
+msgid "United States Minor Outlying Islands"
+msgstr ""
+
+#: crm/const/country.py:238
+msgid "Uruguay"
+msgstr ""
+
+#: crm/const/country.py:239
+msgid "Uzbekistan"
+msgstr ""
+
+#: crm/const/country.py:240
+msgid "Vanuatu"
+msgstr ""
+
+#: crm/const/country.py:241
+msgid "Venezuela"
+msgstr ""
+
+#: crm/const/country.py:242
+msgid "Vietnam Viet Nam"
+msgstr ""
+
+#: crm/const/country.py:243
+msgid "British Virgin Islands"
+msgstr ""
+
+#: crm/const/country.py:244
+msgid "United States Virgin Islands"
+msgstr ""
+
+#: crm/const/country.py:245
+msgid "Wallis and Futuna"
+msgstr ""
+
+#: crm/const/country.py:246
+msgid "Western Sahara"
+msgstr ""
+
+#: crm/const/country.py:247
+msgid "Yemen"
+msgstr ""
+
+#: crm/const/country.py:248
+msgid "Zambia"
+msgstr ""
+
+#: crm/const/country.py:249
+msgid "Zimbabwe"
+msgstr ""
+
+#: crm/const/postaladdressprefix.py:6
+msgid "Company"
+msgstr "Empresa"
+
+#: crm/const/postaladdressprefix.py:7
+msgid "Mrs"
+msgstr "Srs"
+
+#: crm/const/postaladdressprefix.py:8
+msgid "Mr"
+msgstr "Sr"
+
+#: crm/const/postaladdressprefix.py:9
+msgid "Ms"
+msgstr "Sra"
+
+#: crm/const/purpose.py:6
+msgid "Delivery Address"
+msgstr "Endereço de entrega"
+
+#: crm/const/purpose.py:7
+msgid "Billing Address"
+msgstr "Endereço de cobrança"
+
+#: crm/const/purpose.py:8
+msgid "Contact Address"
+msgstr "Endereço de contato"
+
+#: crm/const/purpose.py:12
+msgid "Private"
+msgstr "Pessoal"
+
+#: crm/const/purpose.py:13
+msgid "Business"
+msgstr "Negócio"
+
+#: crm/const/purpose.py:14
+msgid "Mobile Private"
+msgstr "Celular Pessoal"
+
+#: crm/const/purpose.py:15
+msgid "Mobile Business"
+msgstr "Celular de negocío"
+
+#: crm/contact_list.html:4 crm/contact_list.html.py:5 crm/contact_list.html:8
+#, fuzzy
+#| msgid "Accounting Product Categorie"
+msgid "Accounting Period"
+msgstr "Contabilidade da Categoria de produtos"
+
+#: crm/models.py:25
+msgid "Addressline 1"
+msgstr "Endereço 1"
+
+#: crm/models.py:26
+msgid "Addressline 2"
+msgstr "Endereço 2"
+
+#: crm/models.py:27
+msgid "Addressline 3"
+msgstr "Endereço 3"
+
+#: crm/models.py:28
+msgid "Addressline 4"
+msgstr "Endereço 4"
+
+#: crm/models.py:29
+msgid "Zipcode"
+msgstr "CEP"
+
+#: crm/models.py:30
+msgid "City"
+msgstr "Cidade"
+
+#: crm/models.py:31
+msgid "State"
+msgstr "Estado"
+
+#: crm/models.py:32
+msgid "Country"
+msgstr "País"
+
+#: crm/models.py:34 crm/models.py:52 crm/models.py:68
+msgid "Purpose"
+msgstr "Propósito"
+
+#: crm/models.py:38 crm/models.py:39
+msgid "Postal Address"
+msgstr "Endereço postal"
+
+#: crm/models.py:51
+msgid "Phone Number"
+msgstr "Telefone fixo"
+
+#: crm/models.py:56 crm/models.py:57
+msgid "Phone Address"
+msgstr ""
+
+#: crm/models.py:67 crm/models.py:72 crm/models.py:73
+msgid "Email Address"
+msgstr "Endereço de email"
+
+#: crm/models.py:88
+msgid "Prefix"
+msgstr "Prefixo"
+
+#: crm/models.py:90 crm/models.py:191
+msgid "Name"
+msgstr "Nome"
+
+#: crm/models.py:91 crm/models.py:232 crm/models.py:302 crm/models.py:407
+#: crm/models.py:718
+msgid "Created at"
+msgstr "Criado em"
+
+#: crm/models.py:92 crm/models.py:233 crm/models.py:303 crm/models.py:408
+#: crm/models.py:719
+msgid "Last modified"
+msgstr "Modificado em"
+
+#: crm/models.py:94 crm/models.py:235 crm/models.py:305 crm/models.py:410
+#: crm/models.py:721
+msgid "Last modified by"
+msgstr "Modificado por"
+
+#: crm/models.py:97 crm/models.py:98
+msgid "Contact"
+msgstr "Contato"
+
+#: crm/models.py:114 crm/models.py:835
+msgid "Customer Group"
+msgstr "Grupo de Clientes"
+
+#: crm/models.py:115
+msgid "Customer Groups"
+msgstr "Grupos de clientes"
+
+#: crm/models.py:125
+msgid "Prename"
+msgstr "Nome"
+
+#: crm/models.py:126
+msgid "Default Billing Cycle"
+msgstr "Cíclo depagamento"
+
+#: crm/models.py:127
+msgid "Is member of"
+msgstr "E membro de"
+
+#: crm/models.py:132 crm/models.py:403
+msgid "Customer"
+msgstr "Cliente"
+
+#: crm/models.py:133
+msgid "Customers"
+msgstr "Clientes"
+
+#: crm/models.py:171
+msgid "Offers direct Shipment to Customer"
+msgstr "Oferece envio direto ao cliente"
+
+#: crm/models.py:175 crm/models.py:292
+msgid "Supplier"
+msgstr "Fornecedor"
+
+#: crm/models.py:176
+msgid "Suppliers"
+msgstr "Fornecedores"
+
+#: crm/models.py:192
+msgid "Days To Payment Date"
+msgstr "Dias até a data de pagamento"
+
+#: crm/models.py:195 crm/models.py:196
+msgid "Customer Billing Cycle"
+msgstr "Cíclo de pagamento do cliente"
+
+#: crm/models.py:206 crm/models.py:228 crm/models.py:293 crm/models.py:396
+#: crm/models.py:673 crm/models.py:713 crm/models.py:882
+msgid "Description"
+msgstr "Descrição"
+
+#: crm/models.py:207
+msgid "Displayed Name After Price In The Position"
+msgstr "Mostrado nome depois do preço a posição"
+
+#: crm/models.py:208
+msgid "Rounding"
+msgstr "Arredondamento"
+
+#: crm/models.py:211 crm/models.py:212 crm/models.py:301 crm/models.py:406
+msgid "Currency"
+msgstr "Moeda"
+
+#: crm/models.py:226 crm/models.py:299 crm/models.py:404
+msgid "Staff"
+msgstr "Equipe"
+
+#: crm/models.py:229
+msgid "Default Customer"
+msgstr "Cliente padrão"
+
+#: crm/models.py:230
+msgid "Default Supplier"
+msgstr "Fornecedor padrão"
+
+#: crm/models.py:231
+msgid "Default Currency"
+msgstr "Moeda padrão"
+
+#: crm/models.py:238 crm/models.py:284 crm/models.py:290 crm/models.py:392
+#: crm/models.py:932 crm/models.py:943
+msgid "Contract"
+msgstr "Acordo"
+
+#: crm/models.py:239
+msgid "Contracts"
+msgstr "Acordos"
+
+#: crm/models.py:291 crm/models.py:393
+msgid "External Reference"
+msgstr "Referencias externas"
+
+#: crm/models.py:294 crm/models.py:397 crm/models.py:894
+msgid "Last Pricing Date"
+msgstr "Ultima data de precificaço"
+
+#: crm/models.py:296 crm/models.py:399
+msgid "Last Calculted Price With Tax"
+msgstr "Ultimo cálculo de preços com imposto"
+
+#: crm/models.py:297 crm/models.py:401 crm/models.py:898
+msgid "Last Calculted Tax"
+msgstr "Ultima taxa calculada"
+
+#: crm/models.py:358 crm/models.py:365
+msgid "During PurchaseOrder PDF Export"
+msgstr ""
+
+#: crm/models.py:380 crm/models.py:381 crm/models.py:387
+msgid "Purchase Order"
+msgstr "Ordem de compra"
+
+#: crm/models.py:387 crm/models.py:452 crm/models.py:560 crm/models.py:669
+msgid "from Contract"
+msgstr "Do acordo"
+
+#: crm/models.py:394 crm/models.py:883
+msgid "Discount"
+msgstr "Disconto"
+
+#: crm/models.py:445 crm/models.py:452
+msgid "Sales Contract"
+msgstr "Acordo de vendas"
+
+#: crm/models.py:446
+msgid "Sales Contracts"
+msgstr "Acordos de vendas"
+
+#: crm/models.py:459 crm/models.py:838
+msgid "Valid until"
+msgstr "Valido até"
+
+#: crm/models.py:519 crm/models.py:526
+msgid "During Quote PDF Export"
+msgstr ""
+
+#: crm/models.py:553 crm/models.py:560
+msgid "Quote"
+msgstr "Proposta"
+
+#: crm/models.py:554
+msgid "Quotes"
+msgstr "Propostas"
+
+#: crm/models.py:565
+msgid "To pay until"
+msgstr "Pagar até"
+
+#: crm/models.py:567
+msgid "Payment Bank Reference"
+msgstr "Referencias bancárias de pagaments"
+
+#: crm/models.py:626 crm/models.py:633
+msgid "During Invoice PDF Export"
+msgstr "Exporta PDF durante a fatura"
+
+#: crm/models.py:662 crm/models.py:669
+msgid "Invoice"
+msgstr "Fatura"
+
+#: crm/models.py:663
+msgid "Invoices"
+msgstr "Faturas"
+
+#: crm/models.py:674
+msgid "Displayed Name After Quantity In The Position"
+msgstr "Mostrar nome depois da quantidade na posição"
+
+#: crm/models.py:675
+msgid "Is A Fraction Of"
+msgstr "E uma fração de"
+
+#: crm/models.py:676
+msgid "Factor Between This And Next Higher Unit"
+msgstr "Fatorar entre essa e a próxima unidad"
+
+#: crm/models.py:680 crm/models.py:717 crm/models.py:833 crm/models.py:886
+msgid "Unit"
+msgstr "Unidade"
+
+#: crm/models.py:681
+msgid "Units"
+msgstr "Unidades"
+
+#: crm/models.py:691
+msgid "Taxrate in Percentage"
+msgstr "valor da taxa em porcentagem"
+
+#: crm/models.py:692
+msgid "Taxname"
+msgstr "Nome da taxa"
+
+#: crm/models.py:693
+msgid "Activa Account"
+msgstr "Conta ativa"
+
+#: crm/models.py:695
+msgid "Passiva Account"
+msgstr "Conta passiva"
+
+#: crm/models.py:702
+msgid "Tax"
+msgstr "taxa"
+
+#: crm/models.py:703
+msgid "Taxes"
+msgstr "Taxas"
+
+#: crm/models.py:714
+msgid "Title"
+msgstr "Título"
+
+#: crm/models.py:715
+msgid "Product Number"
+msgstr "Numero do produto"
+
+#: crm/models.py:716
+#, fuzzy
+#| msgid "Product"
+msgid "Product Price"
+msgstr "Preço do Produto"
+
+#: crm/models.py:724
+msgid "Accounting Product Categorie"
+msgstr "Contabilidade da Categoria de produtos"
+
+#: crm/models.py:766 crm/models.py:792 crm/models.py:814 crm/models.py:832
+#: crm/models.py:885
+msgid "Product"
+msgstr "Produtos"
+
+#: crm/models.py:767
+msgid "Products"
+msgstr "Produtos"
+
+#: crm/models.py:784
+msgid "There is no Price for this product"
+msgstr "Não há preço para esse produto"
+
+#: crm/models.py:785
+msgid "that matches the date"
+msgstr ""
+
+#: crm/models.py:786
+msgid "customer"
+msgstr "Cliente"
+
+#: crm/models.py:786
+msgid " and unit"
+msgstr "e unidade"
+
+#: crm/models.py:790 crm/models.py:810
+msgid "From Unit"
+msgstr "Da unidade"
+
+#: crm/models.py:791 crm/models.py:812
+msgid "To Unit"
+msgstr "Para a unidade"
+
+#: crm/models.py:793
+msgid "Factor between From and To Unit"
+msgstr "Fatorar entre e para unidade"
+
+#: crm/models.py:802
+msgid "Unit Transfrom"
+msgstr "Transformaç~ de unidade"
+
+#: crm/models.py:803
+msgid "Unit Transfroms"
+msgstr "Transformacoes de unidade"
+
+#: crm/models.py:815
+msgid "Factor between From and To Customer Group"
+msgstr ""
+
+#: crm/models.py:827
+msgid "Customer Group Price Transfrom"
+msgstr ""
+
+#: crm/models.py:828
+msgid "Customer Group Price Transfroms"
+msgstr ""
+
+#: crm/models.py:836 crm/models.py:892
+msgid "Price Per Unit"
+msgstr "Preço por unidate"
+
+#: crm/models.py:837
+msgid "Valid from"
+msgstr "Formulário válido"
+
+#: crm/models.py:875
+msgid "Price"
+msgstr "Preço"
+
+#: crm/models.py:876
+msgid "Prices"
+msgstr "preços"
+
+#: crm/models.py:880
+msgid "Position Number"
+msgstr ""
+
+#: crm/models.py:881
+msgid "Quantity"
+msgstr ""
+
+#: crm/models.py:887
+msgid "Shipment on"
+msgstr ""
+
+#: crm/models.py:888
+msgid "Shipment Supplier"
+msgstr ""
+
+#: crm/models.py:890
+msgid "Shipment ID"
+msgstr ""
+
+#: crm/models.py:891
+msgid "Overwrite Product Price"
+msgstr ""
+
+#: crm/models.py:896
+msgid "Last Calculted Price"
+msgstr ""
+
+#: crm/models.py:924 crm/models.py:927
+msgid "Position"
+msgstr ""
+
+#: crm/models.py:928
+msgid "Positions"
+msgstr ""
+
+#: crm/models.py:935 crm/models.py:939
+msgid "Salescontract Position"
+msgstr ""
+
+#: crm/models.py:936
+msgid "Salescontract Positions"
+msgstr ""
+
+#: crm/models.py:946 crm/models.py:950
+msgid "Purchaseorder Position"
+msgstr ""
+
+#: crm/models.py:947
+msgid "Purchaseorder Positions"
+msgstr ""

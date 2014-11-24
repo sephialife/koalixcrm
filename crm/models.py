@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ # -*- coding: utf-8 -*-
 
 from datetime import date, timedelta
 from decimal import Decimal
@@ -10,18 +10,16 @@ from django.utils.translation import ugettext_lazy as _
 from django.core import serializers
 from django.contrib import auth
 from django_fsm import FSMIntegerField, transition
-
 from const.country import COUNTRIES
 from const.postaladdressprefix import POSTALADDRESSPREFIX
 from const.purpose import PURPOSESADDRESSINCONTRACT, PURPOSESADDRESSINCUSTOMER
 from const.states import InvoiceStatesEnum, PurchaseOrderStatesEnum, QuoteStatesEnum
-# from accounting.models import Booking, Account, AccountingPeriod
-
+#from accounting.models import Booking, Account, AccountingPeriod
+from reporting.models import CustomerReport
 
 # ###########################
 # ##   Contact Additions   ##
 # ###########################
-
 
 class PostalAddress(models.Model):
     addressline1 = models.CharField(max_length=200, verbose_name=_("Addressline 1"), blank=True, null=True)
@@ -33,7 +31,7 @@ class PostalAddress(models.Model):
     state = models.CharField(max_length=100, verbose_name=_("State"), blank=True, null=True)
     country = models.CharField(max_length=2, choices=[(x[0], x[3]) for x in COUNTRIES], verbose_name=_("Country"),
                                blank=True, null=True)
-    purpose = models.CharField(verbose_name=_("Purpose"), max_length=1, choices=PURPOSESADDRESSINCONTRACT, default='C')
+    purpose1 = models.CharField(verbose_name=_("Purpose"), max_length=1, choices=PURPOSESADDRESSINCONTRACT, default='C')
     person = models.ForeignKey('Contact', related_name='addresses')
 
     class Meta():
@@ -44,12 +42,14 @@ class PostalAddress(models.Model):
         )
 
     def __unicode__(self):
-        return '%s, %d %s' % (self.addressline1, self.zipcode, self.town)
+        return '%s, %d, %s' % (self.addressline1 or  '',
+                               self.zipcode or 0,
+                               self.town or '')
 
 
 class PhoneAddress(models.Model):
     phone = models.CharField(max_length=20, verbose_name=_("Phone Number"))
-    purpose = models.CharField(verbose_name=_("Purpose"), max_length=1, choices=PURPOSESADDRESSINCUSTOMER, default='H')
+    purpose1 = models.CharField(verbose_name=_("Purpose"), max_length=1, choices=PURPOSESADDRESSINCUSTOMER, default='H')
     person = models.ForeignKey('Contact', related_name='phonenumbers')
 
     class Meta():
@@ -60,12 +60,12 @@ class PhoneAddress(models.Model):
         )
 
     def __unicode__(self):
-        return "%s: %s" % (self.purpose, self.phone)
+        return "%s: %s" % (self.purpose1, self.phone)
 
 
 class EmailAddress(models.Model):
     email = models.EmailField(max_length=200, verbose_name=_("Email Address"))
-    purpose = models.CharField(verbose_name=_("Purpose"), max_length=1, choices=PURPOSESADDRESSINCONTRACT, default='C')
+    purpose1 = models.CharField(verbose_name=_("Purpose"), max_length=1, choices=PURPOSESADDRESSINCONTRACT, default='C')
     person = models.ForeignKey('Contact', related_name='emailaddresses')
 
     class Meta():
@@ -76,7 +76,7 @@ class EmailAddress(models.Model):
         )
 
     def __unicode__(self):
-        return "%s: %s" % (self.purpose, self.email)
+        return "%s: %s" % (self.purpose1, self.email)
 
 
 # ########################
@@ -115,13 +115,18 @@ class CustomerGroup(models.Model):
         verbose_name_plural = _('Customer Groups')
         permissions = (
             ('view_customer_group', 'Can view customer groups'),
+            ('report_customer', 'can create customer reports'),
         )
 
 
 class Customer(Contact):
+    #  we take the reporting models here 
+    # so we can save the data to the reporting too
     firstname = models.CharField(max_length=300, verbose_name=_("Prename"), blank=True)
-    billingcycle = models.ForeignKey('CustomerBillingCycle', verbose_name=_('Default Billing Cycle'))
+    billingcycle = models.ForeignKey('CustomerBillingCycle', verbose_name=_('Default Billing Cycle'),default=0,null=True)
     ismemberof = models.ManyToManyField(CustomerGroup, verbose_name=_('Is member of'), blank=True, null=True)
+    report = CustomerReport
+    #report.objects.create(customer_name=firstname)
 
     class Meta():
         verbose_name = _('Customer')
@@ -130,15 +135,18 @@ class Customer(Contact):
             ('view_customer', 'Can view customers'),
         )
 
+
+
     def create_contract(self, request):
         contract = Contract()
         contract.defaultcustomer = self
         contract.defaultcurrency = UserExtension.objects.filter(user=request.user.id)[0].defaultCurrency
         contract.lastmodifiedby = request.user
+        contract.lastmodifiedby_id = request.user.id
         contract.staff = request.user
         contract.save()
         return contract
-
+    
     def create_invoice(self, request):
         contract = self.create_contract(request)
         invoice = contract.create_invoice()
@@ -171,7 +179,7 @@ class Supplier(Contact):
         )
 
     def __unicode__(self):
-        return self.name
+        return "%s" %self.name
 
 
 # ###########################
@@ -224,7 +232,7 @@ class Contract(models.Model):
     dateofcreation = models.DateTimeField(verbose_name=_("Created at"), auto_now=True)
     lastmodification = models.DateTimeField(verbose_name=_("Last modified"), auto_now_add=True)
     lastmodifiedby = models.ForeignKey(settings.AUTH_USER_MODEL, limit_choices_to={'is_staff': True},
-                                       verbose_name=_("Last modified by"), related_name="db_contractlstmodified")
+                                       verbose_name=_("Last modified by"), related_name="db_contractlstmodified",null=True,blank=True)
 
     class Meta():
         verbose_name = _('Contract')
@@ -275,9 +283,31 @@ class Contract(models.Model):
     def __unicode__(self):
         return _("Contract") + " " + str(self.id)
 
+class PurchaseOrder(models.Model):
+    # fixed the class tempering using the .value attribute
+    state = FSMIntegerField(default=PurchaseOrderStatesEnum.New.value)
+    contract = models.ForeignKey(Contract, verbose_name=_("Contract"))
+    externalReference = models.CharField(verbose_name=_("External Reference"), max_length=100, blank=True, null=True)
+    supplier = models.ForeignKey(Supplier, verbose_name=_("Supplier"))
+    description = models.CharField(verbose_name=_("Description"), max_length=100, blank=True, null=True)
+    lastPricingDate = models.DateField(verbose_name=_("Last Pricing Date"), blank=True, null=True)
+    lastCalculatedPrice = models.DecimalField(max_digits=17, decimal_places=2,
+                                              verbose_name=_("Last Calculted Price With Tax"), blank=True, null=True)
+    lastCalculatedTax = models.DecimalField(max_digits=17, decimal_places=2, verbose_name=_("Last Calculted Tax"),
+                                            blank=True, null=True)
+    staff = models.ForeignKey(settings.AUTH_USER_MODEL, limit_choices_to={'is_staff': True}, blank=True, verbose_name=_("Staff"),
+                              related_name="db_relpostaff", null=True)
+    currency = models.ForeignKey(Currency, verbose_name=_("Currency"), blank=False, null=False)
+    dateofcreation = models.DateTimeField(verbose_name=_("Created at"), auto_now=True)
+    lastmodification = models.DateTimeField(verbose_name=_("Last modified"), auto_now_add=True)
+    lastmodifiedby = models.ForeignKey(settings.AUTH_USER_MODEL, limit_choices_to={'is_staff': True},
+                                       verbose_name=_("Last modified by"), related_name="db_polstmodified")
+
+
 
 class PurchaseOrder(models.Model):
-    state = FSMIntegerField(default=PurchaseOrderStatesEnum.New)
+    # fixed the class tempering using the .value attribute
+    state = FSMIntegerField(default=PurchaseOrderStatesEnum.New.value)
     contract = models.ForeignKey(Contract, verbose_name=_("Contract"))
     externalReference = models.CharField(verbose_name=_("External Reference"), max_length=100, blank=True, null=True)
     supplier = models.ForeignKey(Supplier, verbose_name=_("Supplier"))
@@ -445,10 +475,11 @@ class SalesContract(models.Model):
 
 
 class Quote(SalesContract):
-    state = FSMIntegerField(default=QuoteStatesEnum.New)
+    # 
+    state = FSMIntegerField(default=QuoteStatesEnum.New.value)
     validuntil = models.DateField(verbose_name=_("Valid until"))
 
-    @transition(field=state, source=QuoteStatesEnum.New, target=QuoteStatesEnum.Quote_sent)
+    @transition(field=state, source=QuoteStatesEnum.New, target=QuoteStatesEnum.Quote_sent.value)
     def create_invoice(self):
         invoice = Invoice()
         invoice.contract = self.contract
@@ -551,50 +582,50 @@ class Quote(SalesContract):
 
 
 class Invoice(SalesContract):
-    state = FSMIntegerField(default=InvoiceStatesEnum.Open)
+    state = FSMIntegerField(default=InvoiceStatesEnum.Open.value)
     payableuntil = models.DateField(verbose_name=_("To pay until"))
     derivatedFromQuote = models.ForeignKey(Quote, blank=True, null=True)
     paymentBankReference = models.CharField(verbose_name=_("Payment Bank Reference"), max_length=100, blank=True,
                                             null=True)
 
-    # def register_invoice_in_accounting(self, request):
-    #     dictprices = dict()
-    #     dicttax = dict()
-    #     exists = False
-    #     current_valid_accounting_period = AccountingPeriod.get_current_valid_accounting_period()
-    #     activaaccount = Account.objects.filter(isopeninterestaccount=True)
-    #     for position in list(SalesContractPosition.objects.filter(contract=self.id)):
-    #         profitaccount = position.product.accoutingProductCategorie.profitAccount
-    #         dictprices[profitaccount] = position.lastCalculatedPrice
-    #         dicttax[profitaccount] = position.lastCalculatedTax
+    def register_invoice_in_accounting(self, request):
+         dictprices = dict()
+         dicttax = dict()
+         exists = False
+         current_valid_accounting_period = AccountingPeriod.get_current_valid_accounting_period()
+         activaaccount = Account.objects.filter(isopeninterestaccount=True)
+         for position in list(SalesContractPosition.objects.filter(contract=self.id)):
+             profitaccount = position.product.accoutingProductCategorie.profitAccount
+             dictprices[profitaccount] = position.lastCalculatedPrice
+             dicttax[profitaccount] = position.lastCalculatedTax
     #
-    #     for booking in Booking.objects.filter(accountingPeriod=current_valid_accounting_period):
-    #         if booking.bookingReference == self:
-    #             raise Exception("Invoice already registered")
-    #         for profitaccount, amount in dictprices.iteritems():
-    #             booking = Booking()
-    #             booking.toAccount = activaaccount[0]
-    #             booking.fromAccount = profitaccount
-    #             booking.bookingReference = self
-    #             booking.accountingPeriod = current_valid_accounting_period
-    #             booking.bookingDate = date.today().__str__()
-    #             booking.staff = request.user
-    #             booking.amount = amount
-    #             booking.lastmodifiedby = request.user
-    #             booking.save()
-    #
-    # def register_payment_in_accounting(self, request, paymentaccount, amount, payment_date):
-    #     activaaccount = Account.objects.filter(isopeninterestaccount=True)
-    #     booking = Booking()
-    #     booking.toAccount = activaaccount
-    #     booking.fromAccount = paymentaccount
-    #     booking.bookingDate = payment_date.today().__str__()
-    #     booking.bookingReference = self
-    #     booking.accountingPeriod = AccountingPeriod.objects.all()[0]
-    #     booking.amount = self.lastCalculatedPrice
-    #     booking.staff = request.user
-    #     booking.lastmodifiedby = request.user
-    #     booking.save()
+         for booking in Booking.objects.filter(accountingPeriod=current_valid_accounting_period):
+             if booking.bookingReference == self:
+                 raise Exception("Invoice already registered")
+             for profitaccount, amount in dictprices.iteritems():
+                 booking = Booking()
+                 booking.toAccount = activaaccount[0]
+                 booking.fromAccount = profitaccount
+                 booking.bookingReference = self
+                 booking.accountingPeriod = current_valid_accounting_period
+                 booking.bookingDate = date.today().__str__()
+                 booking.staff = request.user
+                 booking.amount = amount
+                 booking.lastmodifiedby = request.user
+                 booking.save()
+    
+    def register_payment_in_accounting(self, request, paymentaccount, amount, payment_date):
+         activaaccount = Account.objects.filter(isopeninterestaccount=True)
+         booking = Booking()
+         booking.toAccount = activaaccount
+         booking.fromAccount = paymentaccount
+         booking.bookingDate = payment_date.today().__str__()
+         booking.bookingReference = self
+         booking.accountingPeriod = AccountingPeriod.objects.all()[0]
+         booking.amount = self.lastCalculatedPrice
+         booking.staff = request.user
+         booking.lastmodifiedby = request.user
+         booking.save()
 
     @transition(field=state, source=InvoiceStatesEnum.Open, target=InvoiceStatesEnum.Invoice_created)
     def create_pdf(self, what_to_export):
@@ -703,6 +734,8 @@ class Product(models.Model):
     description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
     title = models.CharField(verbose_name=_("Title"), max_length=200)
     product_number = models.IntegerField(verbose_name=_("Product Number"))
+    product_price = models.FloatField(verbose_name=_("Product Price"),default=0.00,null=False,blank=False)
+    sold = models.PositiveIntegerField(verbose_name=_("Number of products Sold"),default=0,null=False,blank=False)
     defaultunit = models.ForeignKey(Unit, verbose_name=_("Unit"))
     dateofcreation = models.DateTimeField(verbose_name=_("Created at"), auto_now=True)
     lastmodification = models.DateTimeField(verbose_name=_("Last modified"), auto_now_add=True)

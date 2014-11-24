@@ -12,7 +12,7 @@ from const.accountTypeChoices import *
 
 
 class AccountingPeriod(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_("Title"))  # For example "Year 2009", "1st Quarter 2009"
+    title = models.CharField(verbose_name=_("Title"),max_length=200 )  # For example "Year 2009", "1st Quarter 2009"
     begin = models.DateField(verbose_name=_("Begin"))
     end = models.DateField(verbose_name=_("End"))
 
@@ -38,110 +38,112 @@ class AccountingPeriod(models.Model):
         if current_valid_accounting_period is None:
             raise Exception('No accounting period found')
     #
-    # def create_pdf(self, raised_by_user, what_to_create):
-    #     user_extension = UserExtension.objects.filter(user=raised_by_user.id)
-    #     doc = Document()
+    def create_pdf(self, raised_by_user, what_to_create):
+         user_extension = UserExtension.objects.filter(user=raised_by_user.id)
+         doc = Document()
     #
-    #     if len(user_extension) == 0:
-    #         raise Exception(_("During BalanceSheet PDF Export"))
+         if len(user_extension) == 0:
+             raise Exception(_("During BalanceSheet PDF Export"))
+    
+         if what_to_create == "balanceSheet":
+             main = doc.createElement("koalixaccountingbalacesheet")
+             out = open(settings.PDF_OUTPUT_ROOT + "balancesheet_" + str(self.id) + ".xml", "w")
+         else:
+             main = doc.createElement("koalixaccountingprofitlossstatement")
+             out = open(settings.PDF_OUTPUT_ROOT + "profitlossstatement_" + str(self.id) + ".xml", "w")
+    
+         accounting_period_name = doc.createElement("accountingPeriodName")
+         accounting_period_name.appendChild(doc.createTextNode(self.__unicode__()))
+         main.appendChild(accounting_period_name)
+         organisation_name = doc.createElement("organisiationname")
+         organisation_name.appendChild(
+             doc.createTextNode(settings.MEDIA_ROOT + user_extension[0].defaultTemplateSet.organisationname))
+         main.appendChild(organisation_name)
+         accounting_period_to = doc.createElement("accountingPeriodTo")
+         accounting_period_to.appendChild(doc.createTextNode(self.end.year.__str__()))
+         main.appendChild(accounting_period_to)
+         accounting_period_from = doc.createElement("accountingPeriodFrom")
+         accounting_period_from.appendChild(doc.createTextNode(self.begin.year.__str__()))
+         main.appendChild(accounting_period_from)
+         header_picture = doc.createElement("headerpicture")
+         header_picture.appendChild(
+             doc.createTextNode(settings.MEDIA_ROOT + user_extension[0].defaultTemplateSet.logo.path))
+         main.appendChild(header_picture)
+         account_number = doc.createElement("AccountNumber")
+         accounts = Account.objects.all()
+         overall_value_balance = 0
+         overall_value_profit_loss = 0
+    
+         for account in list(accounts):
+             current_value = account.value_now(self)
     #
-    #     if what_to_create == "balanceSheet":
-    #         main = doc.createElement("koalixaccountingbalacesheet")
-    #         out = open(settings.PDF_OUTPUT_ROOT + "balancesheet_" + str(self.id) + ".xml", "w")
-    #     else:
-    #         main = doc.createElement("koalixaccountingprofitlossstatement")
-    #         out = open(settings.PDF_OUTPUT_ROOT + "profitlossstatement_" + str(self.id) + ".xml", "w")
+             if current_value != 0:
+                 current_account_element = doc.createElement("Account")
+                 account_number = doc.createElement("AccountNumber")
+                 account_number.appendChild(doc.createTextNode(account.accountNumber.__str__()))
+                 current_value_element = doc.createElement("currentValue")
+                 current_value_element.appendChild(doc.createTextNode(current_value.__str__()))
+                 account_name_element = doc.createElement("accountName")
+                 account_name_element.appendChild(doc.createTextNode(account.title))
+                 current_account_element.setAttribute("accountType", account.accountType.__str__())
+                 current_account_element.appendChild(account_number)
+                 current_account_element.appendChild(account_name_element)
+                 current_account_element.appendChild(current_value_element)
+                 main.appendChild(current_account_element)
+    
+                 if account.accountType == "A":
+                     overall_value_balance = overall_value_balance + current_value
+    
+                 if account.accountType == "L":
+                     overall_value_balance = overall_value_balance - current_value
+    
+                 if account.accountType == "E":
+                     overall_value_profit_loss = overall_value_profit_loss + current_value
+    
+                 if account.accountType == "S":
+                     overall_value_profit_loss = overall_value_profit_loss - current_value
+    
+         total_profit_loss = doc.createElement("TotalProfitLoss")
+         total_profit_loss.appendChild(doc.createTextNode(overall_value_profit_loss.__str__()))
+         main.appendChild(total_profit_loss)
+         total_balance = doc.createElement("TotalBalance")
+         total_balance.appendChild(doc.createTextNode(overall_value_balance.__str__()))
+         main.appendChild(total_balance)
+         doc.appendChild(main)
+         out.write(doc.toxml("utf-8"))
+         out.close()
     #
-    #     accounting_period_name = doc.createElement("accountingPeriodName")
-    #     accounting_period_name.appendChild(doc.createTextNode(self.__unicode__()))
-    #     main.appendChild(accounting_period_name)
-    #     organisation_name = doc.createElement("organisiationname")
-    #     organisation_name.appendChild(
-    #         doc.createTextNode(settings.MEDIA_ROOT + user_extension[0].defaultTemplateSet.organisationname))
-    #     main.appendChild(organisation_name)
-    #     accounting_period_to = doc.createElement("accountingPeriodTo")
-    #     accounting_period_to.appendChild(doc.createTextNode(self.end.year.__str__()))
-    #     main.appendChild(accounting_period_to)
-    #     accounting_period_from = doc.createElement("accountingPeriodFrom")
-    #     accounting_period_from.appendChild(doc.createTextNode(self.begin.year.__str__()))
-    #     main.appendChild(accounting_period_from)
-    #     header_picture = doc.createElement("headerpicture")
-    #     header_picture.appendChild(
-    #         doc.createTextNode(settings.MEDIA_ROOT + user_extension[0].defaultTemplateSet.logo.path))
-    #     main.appendChild(header_picture)
-    #     account_number = doc.createElement("AccountNumber")
-    #     accounts = Account.objects.all()
-    #     overall_value_balance = 0
-    #     overall_value_profit_loss = 0
-    #
-    #     for account in list(accounts):
-    #         current_value = account.value_now(self)
-    #
-    #         if current_value != 0:
-    #             current_account_element = doc.createElement("Account")
-    #             account_number = doc.createElement("AccountNumber")
-    #             account_number.appendChild(doc.createTextNode(account.accountNumber.__str__()))
-    #             current_value_element = doc.createElement("currentValue")
-    #             current_value_element.appendChild(doc.createTextNode(current_value.__str__()))
-    #             account_name_element = doc.createElement("accountName")
-    #             account_name_element.appendChild(doc.createTextNode(account.title))
-    #             current_account_element.setAttribute("accountType", account.accountType.__str__())
-    #             current_account_element.appendChild(account_number)
-    #             current_account_element.appendChild(account_name_element)
-    #             current_account_element.appendChild(current_value_element)
-    #             main.appendChild(current_account_element)
-    #
-    #             if account.accountType == "A":
-    #                 overall_value_balance = overall_value_balance + current_value
-    #
-    #             if account.accountType == "L":
-    #                 overall_value_balance = overall_value_balance - current_value
-    #
-    #             if account.accountType == "E":
-    #                 overall_value_profit_loss = overall_value_profit_loss + current_value
-    #
-    #             if account.accountType == "S":
-    #                 overall_value_profit_loss = overall_value_profit_loss - current_value
-    #
-    #     total_profit_loss = doc.createElement("TotalProfitLoss")
-    #     total_profit_loss.appendChild(doc.createTextNode(overall_value_profit_loss.__str__()))
-    #     main.appendChild(total_profit_loss)
-    #     total_balance = doc.createElement("TotalBalance")
-    #     total_balance.appendChild(doc.createTextNode(overall_value_balance.__str__()))
-    #     main.appendChild(total_balance)
-    #     doc.appendChild(main)
-    #     out.write(doc.toxml("utf-8"))
-    #     out.close()
-    #
-    #     if what_to_create == "balanceSheet":
-    #         check_output(['/usr/bin/fop', '-c', user_extension[0].defaultTemplateSet.fopConfigurationFile.path, '-xml',
-    #                       settings.PDF_OUTPUT_ROOT + 'balancesheet_' + str(self.id) + '.xml', '-xsl',
-    #                       user_extension[0].defaultTemplateSet.balancesheetXSLFile.xslfile.path, '-pdf',
-    #                       settings.PDF_OUTPUT_ROOT + 'balancesheet_' + str(self.id) + '.pdf'], stderr=STDOUT)
-    #         return settings.PDF_OUTPUT_ROOT + "balancesheet_" + str(self.id) + ".pdf"
-    #     else:
-    #         check_output(['/usr/bin/fop', '-c', user_extension[0].defaultTemplateSet.fopConfigurationFile.path, '-xml',
-    #                       settings.PDF_OUTPUT_ROOT + 'profitlossstatement_' + str(self.id) + '.xml', '-xsl',
-    #                       user_extension[0].defaultTemplateSet.profitLossStatementXSLFile.xslfile.path, '-pdf',
-    #                       settings.PDF_OUTPUT_ROOT + 'profitlossstatement_' + str(self.id) + '.pdf'], stderr=STDOUT)
-    #         return settings.PDF_OUTPUT_ROOT + "profitlossstatement_" + str(self.id) + ".pdf"
-    #
-    # def __unicode__(self):
-    #     return self.title
-    #
+         if what_to_create == "balanceSheet":
+             check_output(['/usr/bin/fop', '-c', user_extension[0].defaultTemplateSet.fopConfigurationFile.path, '-xml',
+                           settings.PDF_OUTPUT_ROOT + 'balancesheet_' + str(self.id) + '.xml', '-xsl',
+                           user_extension[0].defaultTemplateSet.balancesheetXSLFile.xslfile.path, '-pdf',
+                           settings.PDF_OUTPUT_ROOT + 'balancesheet_' + str(self.id) + '.pdf'], stderr=STDOUT)
+             return settings.PDF_OUTPUT_ROOT + "balancesheet_" + str(self.id) + ".pdf"
+         else:
+             check_output(['/usr/bin/fop', '-c', user_extension[0].defaultTemplateSet.fopConfigurationFile.path, '-xml',
+                           settings.PDF_OUTPUT_ROOT + 'profitlossstatement_' + str(self.id) + '.xml', '-xsl',
+                           user_extension[0].defaultTemplateSet.profitLossStatementXSLFile.xslfile.path, '-pdf',
+                           settings.PDF_OUTPUT_ROOT + 'profitlossstatement_' + str(self.id) + '.pdf'], stderr=STDOUT)
+             return settings.PDF_OUTPUT_ROOT + "profitlossstatement_" + str(self.id) + ".pdf"
+    
+    def __unicode__(self):
+         return self.title
+    
     # # TODO: def createNewAccountingPeriod() Neues Geschäftsjahr erstellen
     #
-    # class Meta():
-    #     verbose_name = _('Accounting Period')
-    #     verbose_name_plural = _('Accounting Periods')
+    class Meta():
+         verbose_name = _('Accounting Period')
+         verbose_name_plural = _('Accounting Periods')
 
 
 class Account(models.Model):
-    accountNumber = models.IntegerField(verbose_name=_("Account Number"))
+    accountNumber = models.PositiveIntegerField(verbose_name=_("Account Number"))
     title = models.CharField(verbose_name=_("Account Title"), max_length=50)
     accountType = models.CharField(verbose_name=_("Account Type"), max_length=1, choices=ACCOUNTTYPECHOICES)
     description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
-    originalAmount = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_("Original Amount"),
+    originalAmount = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_("Original Amount"),default=0.00)
+
+    current_balance = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_("Current balance"),
                                          default=0.00)
     isopenreliabilitiesaccount = models.BooleanField(verbose_name=_("Is The Open Liabilities Account"),
                                                      default=False)
@@ -232,3 +234,62 @@ class Booking(models.Model):
     class Meta():
         verbose_name = _('Booking')
         verbose_name_plural = _('Bookings')
+
+
+class AccountingAccount(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    accountnumber = models.IntegerField(db_column='accountNumber')  # Field name made lowercase.
+    title = models.CharField(max_length=50)
+    accounttype = models.CharField(db_column='accountType', max_length=1)  # Field name made lowercase.
+    description = models.TextField(blank=True)
+    originalamount = models.DecimalField(db_column='originalAmount', max_digits=10, decimal_places=5)  # Field name made lowercase. max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    isopenreliabilitiesaccount = models.BooleanField(default=False)
+    isopeninterestaccount = models.BooleanField(default=False)
+    isproductinventoryactiva = models.BooleanField(db_column='isProductInventoryActiva',default=False)  # Field name made lowercase.
+    isacustomerpaymentaccount = models.BooleanField(db_column='isACustomerPaymentAccount',default=False)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'accounting_account'
+
+
+class AccountingAccountingperiod(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    title = models.CharField(max_length=200)
+    begin = models.DateField()
+    end = models.DateField()
+
+    class Meta:
+        managed = False
+        db_table = 'accounting_accountingperiod'
+
+
+class AccountingBooking(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    fromaccount = models.ForeignKey(AccountingAccount, db_column='fromAccount_id',related_name='fromacc')  # Field name made lowercase.
+    toaccount = models.ForeignKey(AccountingAccount, db_column='toAccount_id')  # Field name made lowercase.
+    amount = models.DecimalField(max_digits=10, decimal_places=5)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    description = models.CharField(max_length=120, blank=True)
+    bookingreference_id = models.IntegerField(db_column='bookingReference_id', blank=True, null=True)  # Field name made lowercase.
+    bookingdate = models.DateTimeField(db_column='bookingDate')  # Field name made lowercase.
+    accountingperiod = models.ForeignKey(AccountingAccountingperiod, db_column='accountingPeriod_id')  # Field name made lowercase.
+    staff_id = models.IntegerField()
+    dateofcreation = models.DateTimeField(db_column='dateOfCreation')  # Field name made lowercase.
+    lastmodification = models.DateTimeField(db_column='lastModification')  # Field name made lowercase.
+    lastmodifiedby_id = models.IntegerField(db_column='lastModifiedBy_id')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'accounting_booking'
+
+
+class AccountingProductcategory(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    title = models.CharField(max_length=50)
+    profitaccount = models.ForeignKey(AccountingAccount, db_column='profitAccount_id',related_name='profit')  # Field name made lowercase.
+    lossaccount = models.ForeignKey(AccountingAccount, db_column='lossAccount_id')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'accounting_productcategory'
+

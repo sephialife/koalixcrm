@@ -14,7 +14,10 @@ from djangoUserExtension.models import UserExtension
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login, logout
-
+from crm.models import Customer
+from reporting.models import CustomerReport
+from os import system
+import datetime
 
 def login_user(request):
     logout(request)
@@ -53,7 +56,7 @@ class PostalAddressInline(LoginRequiredMixin, PermissionRequiredMixin, InlineFor
     raise_exception = False
     extra = 1
     can_delete = False
-    fields = ['addressline1', 'addressline2', 'zipcode', 'town', 'state', 'country', 'purpose']
+    fields = ['addressline1', 'addressline2', 'zipcode', 'town', 'state', 'country', 'purpose1']
 
 
 class PhoneAddressInline(LoginRequiredMixin, PermissionRequiredMixin, InlineFormSet):
@@ -63,7 +66,7 @@ class PhoneAddressInline(LoginRequiredMixin, PermissionRequiredMixin, InlineForm
     extra = 1
     max_num = 4
     can_delete = False
-    fields = ['phone', 'purpose']
+    fields = ['phone', 'purpose1']
 
 
 class EmailAddressInline(LoginRequiredMixin, PermissionRequiredMixin, InlineFormSet):
@@ -73,7 +76,7 @@ class EmailAddressInline(LoginRequiredMixin, PermissionRequiredMixin, InlineForm
     extra = 1
     max_num = 2
     can_delete = False
-    fields = ['email', 'purpose']
+    fields = ['email', 'purpose1']
 
 
 class UserExtensionInline(InlineFormSet):
@@ -93,7 +96,7 @@ class UpdateUserProfile(LoginRequiredMixin, NamedFormsetsMixin, UpdateWithInline
 
 class ListCustomers(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Customer
-    permission_required = 'crm_core.view_customer'
+    permission_required = 'crm_core.view_customer reporting.report_customer'
     login_url = settings.LOGIN_URL
     fields = ['name', 'firstname', 'billingcycle', 'ismemberof']
 
@@ -113,6 +116,12 @@ class CreateCustomer(LoginRequiredMixin, PermissionRequiredMixin, NamedFormsetsM
     inlines_names = ['postaladdress_formset', 'phoneaddress_formset', 'emailaddress_formset']
     success_url = reverse_lazy('customer_list')
 
+    def forms_valid(self,form,inlines):
+        report = CustomerReport.objects.create(effective_date=str(datetime.date.today()),customer_acquisition=True,customer_lost=False)
+        report.save()
+        return super(CreateCustomer,self).forms_valid(form,inlines)
+        
+
 
 class EditCustomer(LoginRequiredMixin, PermissionRequiredMixin, NamedFormsetsMixin, UpdateWithInlinesView):
     model = Customer
@@ -128,7 +137,7 @@ class DeleteCustomer(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Customer
     permission_required = 'crm_core.delete_customer'
     login_url = settings.LOGIN_URL
-    success_url = reverse_lazy('list_customers')
+    success_url = reverse_lazy('customer_list')
 
 
 class ListSuppliers(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -256,14 +265,14 @@ class ListProducts(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Product
     permission_required = 'crm_core.view_product'
     login_url = settings.LOGIN_URL
-    fields = ['product_number', 'title', 'description', 'defaultunit', 'tax', 'accoutingProductCategorie']
+    fields = ['product_number', 'title', 'description', 'defaultunit','product_price', 'tax','sold']# 'accoutingProductCategorie']
 
 
 class CreateProduct(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Product
     permission_required = 'crm_core.add_product'
     login_url = settings.LOGIN_URL
-    fields = ['product_number', 'title', 'description', 'defaultunit', 'tax', 'accoutingProductCategorie']
+    fields = ['product_number', 'title', 'description', 'defaultunit','product_price', 'tax', 'accoutingProductCategorie']
     success_url = reverse_lazy('product_list')
 
 
@@ -271,7 +280,7 @@ class EditProduct(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     permission_required = 'crm_core.change_product'
     login_url = settings.LOGIN_URL
-    fields = ['product_number', 'title', 'description', 'defaultunit', 'tax', 'accoutingProductCategorie']
+    fields = ['product_number', 'title', 'description', 'defaultunit','product_price','sold','tax', 'accoutingProductCategorie']
     success_url = reverse_lazy('product_list')
 
 
@@ -458,3 +467,5 @@ class DeleteQuote(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'crm_core.delete_quote'
     login_url = settings.LOGIN_URL
     success_url = reverse_lazy('quote_list')
+
+

@@ -17,12 +17,12 @@ class PluginProcessor(object):
     @staticmethod
     def get_all_plugins():
         all_plugin_modules = []
-        for plugin in settings.KOALIXCRM_PLUGINS:
-            temp = __import__(plugin + ".admin")
-            all_plugin_modules.append(sys.modules[plugin + ".admin"])
+        #for plugin in settings.KOALIXCRM_PLUGINS:
+            #temp = __import__(plugin + ".admin")
+            #all_plugin_modules.append(sys.modules[plugin + ".admin"])
         return all_plugin_modules
 
-    def get_plugin_additions(self, addition_name):
+    def getPluginAdditions(self, addition_name):
         list_of_additions = []
         all_plugin_modules = self.get_all_plugins()
         for plugin_module in all_plugin_modules:

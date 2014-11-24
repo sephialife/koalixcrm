@@ -1,0 +1,76 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-23 03:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: subscriptions/models.py:12 subscriptions/models.py:13
+#: subscriptions/models.py:76
+msgid "Subscription Type"
+msgstr ""
+
+#: subscriptions/models.py:48 subscriptions/models.py:53
+msgid "Subscription"
+msgstr ""
+
+#: subscriptions/models.py:49
+msgid "Subscriptions"
+msgstr ""
+
+#: subscriptions/models.py:54
+msgid "Event Date"
+msgstr ""
+
+#: subscriptions/models.py:55
+msgid "Event"
+msgstr ""
+
+#: subscriptions/models.py:61
+msgid "Subscription Event"
+msgstr ""
+
+#: subscriptions/models.py:62
+msgid "Subscription Events"
+msgstr ""
+
+#: subscriptions/models.py:66
+msgid "Cancelation Period (months)"
+msgstr ""
+
+#: subscriptions/models.py:67
+msgid "Automatic Contract Extension (months)"
+msgstr ""
+
+#: subscriptions/models.py:70
+msgid "Automatic Contract Extensoin Reminder (days)"
+msgstr ""
+
+#: subscriptions/models.py:71
+msgid "Minimum Contract Duration"
+msgstr ""
+
+#: subscriptions/models.py:72
+msgid "Payment Intervall (days)"
+msgstr ""
+
+#: subscriptions/models.py:73
+msgid "Contract Documents"
+msgstr ""
+
+#: subscriptions/models.py:77
+msgid "Subscription Types"
+msgstr ""

@@ -1,0 +1,76 @@
+{%  extends "base.html" %}
+{% load i18n %}
+{% block  extra_head %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      fieldset {
+        float: left;
+        width: 33%;
+      }
+      .actions {
+        float: left;
+        clear: both;
+      }
+      p.row {
+        margin-left: 0px;
+      }
+      .caption, .caption:hover {
+        font-weight: bold !important;
+        background: #EEE !important;
+      }
+      .grouper, .grouper:hover {
+        background: #333 !important;
+        color: #EEE !important;
+      }
+      .utils {
+
+        sheight: 70px;
+        text-align: left;
+      }
+      .utils p {
+          margin: 0;
+          padding: 0;
+      }
+      .readthedocs {
+        background: url("https://media.readthedocs.org/images/logo.png") no-repeat scroll left top transparent;
+        background-color: #404750;
+      }
+      .travis {
+        text-align: right;
+      }
+      #forkme {position: fixed; top: 0; right: 0; z-index: 10000;}
+
+.nav > li > a {
+    padding-bottom: 0;
+  }
+    </style>
+        <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% block head_extra %}
+    {% endblock %}
+{% endblock %}
+{% block main %}
+
+                
+        {% block content %}
+        {% endblock %}
+
+
+{% endblock %}

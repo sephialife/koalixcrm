@@ -1,0 +1,158 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-23 03:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: djangoUserExtension/admin.py:12 djangoUserExtension/admin.py:23
+#: djangoUserExtension/admin.py:34 djangoUserExtension/admin.py:47
+#: djangoUserExtension/admin.py:64 djangoUserExtension/admin.py:77
+msgid "Basics"
+msgstr ""
+
+#: djangoUserExtension/const/purpose.py:6
+msgid "Private"
+msgstr ""
+
+#: djangoUserExtension/const/purpose.py:7
+msgid "Business"
+msgstr ""
+
+#: djangoUserExtension/const/purpose.py:8
+msgid "Mobile Private"
+msgstr ""
+
+#: djangoUserExtension/const/purpose.py:9
+msgid "Mobile Business"
+msgstr ""
+
+#: djangoUserExtension/models.py:12 djangoUserExtension/models.py:25
+msgid "Title"
+msgstr ""
+
+#: djangoUserExtension/models.py:13 djangoUserExtension/models.py:16
+msgid "XSL File"
+msgstr ""
+
+#: djangoUserExtension/models.py:17
+msgid "XSL Files"
+msgstr ""
+
+#: djangoUserExtension/models.py:24
+msgid "Name of the Organisation"
+msgstr ""
+
+#: djangoUserExtension/models.py:26
+msgid "XSL File for Invoice"
+msgstr ""
+
+#: djangoUserExtension/models.py:28
+msgid "XSL File for Quote"
+msgstr ""
+
+#: djangoUserExtension/models.py:29
+msgid "XSL File for Purchaseorder"
+msgstr ""
+
+#: djangoUserExtension/models.py:31
+msgid "XSL File for Purchase Confirmation"
+msgstr ""
+
+#: djangoUserExtension/models.py:33
+msgid "XSL File for Deilvery Order"
+msgstr ""
+
+#: djangoUserExtension/models.py:35
+msgid "XSL File for Profit Loss Statement"
+msgstr ""
+
+#: djangoUserExtension/models.py:37
+msgid "XSL File for Balancesheet"
+msgstr ""
+
+#: djangoUserExtension/models.py:39
+msgid "Logo for the PDF generation"
+msgstr ""
+
+#: djangoUserExtension/models.py:40
+msgid "Reference to Banking Account"
+msgstr ""
+
+#: djangoUserExtension/models.py:42
+msgid "Addresser"
+msgstr ""
+
+#: djangoUserExtension/models.py:43
+msgid "FOP Configuration File"
+msgstr ""
+
+#: djangoUserExtension/models.py:44
+msgid "Footer Text On Salesorders"
+msgstr ""
+
+#: djangoUserExtension/models.py:45
+msgid "Header Text On Salesorders"
+msgstr ""
+
+#: djangoUserExtension/models.py:46
+msgid "Header Text On Purchaseorders"
+msgstr ""
+
+#: djangoUserExtension/models.py:47
+msgid "Footer Text On Purchaseorders"
+msgstr ""
+
+#: djangoUserExtension/models.py:48
+msgid "Page Footer Left"
+msgstr ""
+
+#: djangoUserExtension/models.py:49
+msgid "Page Footer Middle"
+msgstr ""
+
+#: djangoUserExtension/models.py:52
+msgid "Templateset"
+msgstr ""
+
+#: djangoUserExtension/models.py:53
+msgid "Templatesets"
+msgstr ""
+
+#: djangoUserExtension/models.py:66
+msgid "User Extension"
+msgstr ""
+
+#: djangoUserExtension/models.py:67
+msgid "User Extensions"
+msgstr ""
+
+#: djangoUserExtension/models.py:74 djangoUserExtension/models.py:87
+#: djangoUserExtension/models.py:99
+msgid "Purpose"
+msgstr ""
+
+#: djangoUserExtension/models.py:83 djangoUserExtension/models.py:84
+msgid "Postal Address for User Extention"
+msgstr ""
+
+#: djangoUserExtension/models.py:95 djangoUserExtension/models.py:96
+msgid "Phonenumber for User Extention"
+msgstr ""
+
+#: djangoUserExtension/models.py:107 djangoUserExtension/models.py:108
+msgid "Email Address for User Extention"
+msgstr ""

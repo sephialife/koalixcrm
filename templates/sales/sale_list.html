@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Sales" %}{% endblock %}
+{% block title %}{% trans "Sales" %}{% endblock %}
+
+{% block breadcrumb_menu %}
+    <li class="active">{% trans "Sales" %}</li>
+{% endblock %}
+
+{% block main %}
+    <div class="content-panel" style="margin: 30px; padding: 10px;">
+    <h4><i class="fa fa-angle-right"></i> {% trans "Sales" %}</h4>
+        {% if sale_list %}
+        <table class="table table-striped table-advance">
+           <th>{% trans "Sale id" %}</th>< <th>{% trans "Product" %}</th><th>{% trans "Quantity" %}</th><th>{% trans "Total amount" %}</th><th>{% trans "Date" %}</th>
+
+            {% for sale in sale_list %}
+                <tr>
+
+                    <td>{{ sale.id }}</td>
+                    <td>{{ sale.product }}</td>
+                    <td>{{ sale.quantity }}</td>
+                    <td>{{ sale.total_amount }}</td>
+                    <td>{{ sale.date }}</td>
+                    <td>
+                        <p class="pull-right">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="window.location.assign('{% url 'sale_edit' sale.pk %}')">{% trans "Edit" %}</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="window.location.assign('{% url 'sale_delete' sale.pk %}')">{% trans "Delete" %}</button>
+                        </p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        <p><a href="{% url 'sale_create' %}">{% trans "Create a new sale" %}</a></p>
+    </div>
+{% endblock %}

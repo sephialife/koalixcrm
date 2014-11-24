@@ -19,7 +19,7 @@ from django.contrib.admin import helpers
 
    
 class ContractPostalAddress(admin.StackedInline):
-   model = PostalAddressForContract
+   model = PostalAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -30,7 +30,7 @@ class ContractPostalAddress(admin.StackedInline):
    allow_add = True
    
 class ContractPhoneAddress(admin.TabularInline):
-   model = PhoneAddressForContract
+   model = PhoneAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -41,7 +41,7 @@ class ContractPhoneAddress(admin.TabularInline):
    allow_add = True
    
 class ContractEmailAddress(admin.TabularInline):
-   model = EmailAddressForContract
+   model = EmailAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -52,7 +52,7 @@ class ContractEmailAddress(admin.TabularInline):
    allow_add = True
 
 class PurchaseOrderPostalAddress(admin.StackedInline):
-   model = PostalAddressForPurchaseOrder
+   model = PostalAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -63,7 +63,7 @@ class PurchaseOrderPostalAddress(admin.StackedInline):
    allow_add = True
    
 class PurchaseOrderPhoneAddress(admin.TabularInline):
-   model = PhoneAddressForPurchaseOrder
+   model = PhoneAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -74,7 +74,7 @@ class PurchaseOrderPhoneAddress(admin.TabularInline):
    allow_add = True
    
 class PurchaseOrderEmailAddress(admin.TabularInline):
-   model = EmailAddressForPurchaseOrder
+   model = EmailAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -85,7 +85,7 @@ class PurchaseOrderEmailAddress(admin.TabularInline):
    allow_add = True
 
 class SalesContractPostalAddress(admin.StackedInline):
-   model = PostalAddressForSalesContract
+   model = PostalAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -96,7 +96,7 @@ class SalesContractPostalAddress(admin.StackedInline):
    allow_add = True
    
 class SalesContractPhoneAddress(admin.TabularInline):
-   model = PhoneAddressForSalesContract
+   model = PhoneAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -107,7 +107,7 @@ class SalesContractPhoneAddress(admin.TabularInline):
    allow_add = True
    
 class SalesContractEmailAddress(admin.TabularInline):
-   model = EmailAddressForSalesContract
+   model = EmailAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -496,7 +496,7 @@ class OptionProduct(admin.ModelAdmin):
    inlines = [ProductPrice, ProductUnitTransform]
    
 class ContactPostalAddress(admin.StackedInline):
-   model = PostalAddressForContact
+   model = PostalAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -507,7 +507,7 @@ class ContactPostalAddress(admin.StackedInline):
    allow_add = True
    
 class ContactPhoneAddress(admin.TabularInline):
-   model = PhoneAddressForContact
+   model = PhoneAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -518,7 +518,7 @@ class ContactPhoneAddress(admin.TabularInline):
    allow_add = True
    
 class ContactEmailAddress(admin.TabularInline):
-   model = EmailAddressForContact
+   model = EmailAddress
    extra = 1
    classes = ('collapse-open',)
    fieldsets = (
@@ -609,7 +609,7 @@ class OptionCustomerBillingCycle(admin.ModelAdmin):
    fieldsets = (('', {'fields': ('timeToPaymentDate', 'name',)}),)
    allow_add = True
 
- 
+""" 
 admin.site.register(Customer, OptionCustomer)
 admin.site.register(CustomerGroup, OptionCustomerGroup)
 admin.site.register(Supplier, OptionSupplier)
@@ -622,3 +622,4 @@ admin.site.register(CustomerBillingCycle, OptionCustomerBillingCycle)
 admin.site.register(Contract, OptionContract)
 admin.site.register(PurchaseOrder, OptionPurchaseOrder)
 admin.site.register(Product, OptionProduct)
+"""
